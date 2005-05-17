@@ -1,0 +1,12 @@
+README for nss_exfiles
+======================
+
+nss_exfiles is an NSS module which allows file-based naming service outside
+of those normally used in /etc.  This is easier for disconnected remote
+hosts, for which the infrastructure of a network-based naming service, such
+as LDAP or NIS, would be overkill or a liability, but without the risks of
+synchronizing /etc files.
+
+This code is currently in development.  Please do not attempt to use.
+
+Wil Cooley <wcooley@nakedape.cc>
