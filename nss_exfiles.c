@@ -36,27 +36,6 @@ enum nss_status _nss_exfiles_endpwent(void) {
     return status;
 }
 
-/*
-int get_pw_name(struct passwd *pwbuf, const char * pw_entry) {
-    int slen;
-
-    slen = strcspn(pw_entry, ":");
-    pwbuf->pw_name = (char *)malloc(sizeof(char) * (slen+1));
-    memcpy(pwbuf->pw_name, pw_entry, sizeof(char) * slen);
-    pwbuf->pw_name[slen+1] = '\0';
-
-    return 0; 
-    
-}
-
-int get_pw_passwd(struct passwd *pwbuf, const char * pw_entry) {
-    int slen;
-    char * t1, t2;
-
-    slen = strcspn(pw_entry, ":");
-
-}
-*/
 
 enum nss_status _nss_exfiles_getpwent_r (struct passwd *pwbuf, 
                                         char *buffer, 
