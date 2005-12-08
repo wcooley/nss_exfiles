@@ -1,5 +1,5 @@
 CC	=	gcc
-CFLAGS	=	-Wall -DEXFILES_BASE="\"$(shell pwd)\""
+CFLAGS	=	-Wall -DEXFILES_BASE="."
 LIB_SO	=	libnss_exfiles.so.2
 LEX	=	lex
 YACC	=	bison -d
@@ -23,7 +23,7 @@ exfiles_conf.tab.o: exfiles_conf.tab.c
 	$(CC) $(CFLAGS) -c $<
 
 devel: nss_exfiles.o split.o
-	$(CC) $(CFLAGS) -shared -o $(LIB) -Wl,-soname,$(LIB) nss_exfiles.o split.o
+	$(CC) $(CFLAGS) -shared -o $(LIB_SO) -Wl,-soname,$(LIB_SO) nss_exfiles.o split.o
 
 testdevel: nss_exfiles.o testdevel.o
 	$(CC) $(CFLAGS) $^ -o testdevel
