@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*
+ * strcnt - Count the number of occurrances of a character in a string
+ */
 int strcnt(char * str, char charcnt) {
     int cnt = 0;
 
@@ -15,6 +18,10 @@ int strcnt(char * str, char charcnt) {
     return cnt ;
 }
 
+/*
+ * split - Split a string up into an array of strings, given a character to 
+ * use as delimiter.
+ */
 char ** split(char splitchar, char * splitstr) {
     int splitcnt = 0;
     int i, j, slen;
