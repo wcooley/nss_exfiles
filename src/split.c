@@ -6,10 +6,10 @@
 /*
  * strcnt - Count the number of occurrances of a character in a string
  */
-int strcnt(char * str, char charcnt) {
+int strcnt(const char * str, const char charcnt) {
     int cnt = 0;
 
-    while(NULL != (void *)*str) {
+    while('\0' != *str) {
         if (*str == charcnt)
             ++cnt;
         ++str;
@@ -19,10 +19,10 @@ int strcnt(char * str, char charcnt) {
 }
 
 /*
- * split - Split a string up into an array of strings, given a character to 
- * use as delimiter.
+ * strsplit - Split a string up into an array of strings, given a character
+ * to use as delimiter.
  */
-char ** split(char splitchar, char * splitstr) {
+char ** strsplit(const char * splitstr, const char splitchar) {
     int splitcnt = 0;
     int i, j, slen;
     char **splitdst;
@@ -56,7 +56,7 @@ char ** split(char splitchar, char * splitstr) {
     return splitdst;
 }
 
-void split_free(char ** splat) {
+void strsplit_free(char ** splat) {
     char ** splatorig = splat;
     while (NULL != *splat) {
         free(*splat);

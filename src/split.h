@@ -1,9 +1,11 @@
 
-#ifndef _SPLIT_H
-#define _SPLIT_H 1
+#ifndef STRSPLIT_H
+#define STRSPLIT_H 1
 
-char ** split (char splitchar, char * splitstr);
+int strcnt(const char *, const char);
 
-void split_free(char ** splat);
+char ** strsplit (const char *, const char);
 
-#endif /* _SPLIT_H */
+void strsplit_free(char **);
+
+#endif /* STRSPLIT_H */
