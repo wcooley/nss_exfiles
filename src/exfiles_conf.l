@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include <string.h>
-#include "exfiles_conf.tab.h"
+#include "conf_parser.h"
 %}
 
 %s BACKEND_S
