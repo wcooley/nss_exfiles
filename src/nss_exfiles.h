@@ -1,3 +1,6 @@
+#ifndef NSS_EXFILES_H
+#define NSS_EXFILES_H 1
+
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif /* _GNU_SOURCE */
@@ -18,4 +21,4 @@
 #define EXFILE_FILE(file) static char * ex_ ## file =  EXFILES_BASE "/" #file;
 
 
-
+#endif /* NSS_EXFILES_H */
