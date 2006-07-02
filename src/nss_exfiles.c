@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 #include "nss_exfiles.h"
-#include "split.h"
+#include "strsplit.h"
 
 EXFILE_FILE(passwd)
 
@@ -68,7 +68,7 @@ enum nss_status _nss_exfiles_getpwent_r (struct passwd *pwbuf,
     pwline[llength-1] = '\0';
     fprintf(stderr, "Read line '%s'\n", pwline);
 
-    pw_entry = split(':', pwline);
+    pw_entry = strsplit(':', pwline);
 
     if (NULL == pw_entry)
         return NSS_STATUS_NOTFOUND;
