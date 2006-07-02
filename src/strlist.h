@@ -8,8 +8,8 @@
  * 
  */
 
-#ifndef _STRLIST_H_
-#define _STRLIST_H_
+#ifndef STRLIST_H
+#define STRLIST_H
 
 typedef struct _strlist_node {
     struct _strlist_node  * next;
@@ -31,4 +31,4 @@ strlist_node * strlist_append_str(strlist * list, const char * str);
 strlist_node * strlist_append_node(strlist * list, strlist_node * node);
 
 
-#endif /* _STRLIST_H_ */
+#endif /* STRLIST_H */
