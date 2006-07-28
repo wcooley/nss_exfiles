@@ -6,16 +6,20 @@
 /*
  * strcnt - Count the number of occurrances of a character in a string
  */
-int strcnt(const char * str, const char charcnt) {
-    int cnt = 0;
+int strcnt(const char * str, const char char_to_cnt) {
+    int count = 0;
 
-    while('\0' != *str) {
-        if (*str == charcnt)
-            ++cnt;
+    /* Abort early if the str is bogus */
+    if (NULL == str)
+        return 0;
+
+    while ('\0' != *str) {
+        if (*str == char_to_cnt)
+            ++count;
         ++str;
     }
 
-    return cnt ;
+    return count ;
 }
 
 /*
@@ -26,8 +30,8 @@ char ** strsplit(const char * splitstr, const char splitchar) {
     int splitcnt = 0;
     int i, j, slen;
     char **splitdst;
-    char *begin, *end;
-
+    const char *begin = splitstr;
+    const char *end = splitstr;
     splitcnt = strcnt(splitstr, splitchar);
 
     /* splitcnt+2 == number of items plus terminating NULL */
@@ -35,8 +39,6 @@ char ** strsplit(const char * splitstr, const char splitchar) {
     if (NULL == splitdst) return NULL;
 
     splitdst[splitcnt+1] = NULL;
-
-    end = begin = splitstr;
 
     for (i=0; i <= splitcnt; ++i) {
 
