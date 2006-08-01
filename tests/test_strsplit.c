@@ -21,10 +21,13 @@ END_TEST
 
 START_TEST (strsplit_split_basic)
 {
+    /* FIXME */
 }
 END_TEST
 
-Suite * strsplit_suite(void) {
+Suite *
+strsplit_suite(void) 
+{
     Suite *s = suite_create("strsplit");
     TCase *tc_core = tcase_create("Core");
 
@@ -35,7 +38,8 @@ Suite * strsplit_suite(void) {
     return s;
 }
 
-int main(void)
+int 
+main(void)
 {
 
     int nf;
@@ -46,7 +50,10 @@ int main(void)
     nf = srunner_ntests_failed(sr);
     srunner_free(sr);
 
-    return (nf == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return  (nf == 0)
+            ? EXIT_SUCCESS 
+            : EXIT_FAILURE
+            ;
 
 
 /*

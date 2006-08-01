@@ -6,11 +6,11 @@
 
 #include "strlist.h"
 
-const char * teststr = "Now is the time for all good boys to go to bed.\n";
+const char *teststr = "Now is the time for all good boys to go to bed.\n";
 
 START_TEST (strlist_new_list)
 {
-    strlist * l = NULL;
+    strlist *l = NULL;
         
     l = strlist_create_list();
 
@@ -23,7 +23,7 @@ END_TEST
 
 START_TEST (strlist_new_node)
 {
-    strlist_node * n = NULL ;
+    strlist_node *n = NULL;
 
     n = strlist_create_node();
 
@@ -37,7 +37,7 @@ END_TEST
 
 START_TEST (strlist_new_node_str)
 {
-    strlist_node * n = NULL, *n2 = NULL ;
+    strlist_node *n = NULL, *n2 = NULL;
 
     n = strlist_create_node();
     fail_unless(NULL != n, "Node not allocated successfully");
@@ -77,8 +77,8 @@ END_TEST
 START_TEST (strlist_append_2nodes)
 {
     strlist *l = NULL;
-    strlist_node * nodes[2];
-    strlist_node * tmpnode;
+    strlist_node *nodes[2];
+    strlist_node *tmpnode;
 
     nodes[0] = NULL;
     nodes[1] = NULL;
@@ -127,7 +127,9 @@ START_TEST (strlist_append_string)
 END_TEST
 
 
-Suite * strlist_suite(void) {
+Suite *
+strlist_suite(void)
+{
   Suite *s = suite_create("strlist");
   TCase *tc_core = tcase_create("Core");
 
@@ -142,7 +144,8 @@ Suite * strlist_suite(void) {
   return s;
 }
 
-int main(void)
+int 
+main(void)
 {
   int nf;
   Suite *s = strlist_suite();
