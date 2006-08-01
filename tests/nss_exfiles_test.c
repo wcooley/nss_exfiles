@@ -6,6 +6,17 @@
 #include <sys/types.h>
 
 
+void print_passwd_struct(FILE * outstream, const struct passwd * pwbuf) {
+    fprintf(outstream, "%s:%s:%d:%d:%s:%s:%s\n",
+            pwbuf->pw_name,
+            pwbuf->pw_passwd,
+            pwbuf->pw_uid,
+            pwbuf->pw_gid,
+            pwbuf->pw_gecos,
+            pwbuf->pw_dir,
+            pwbuf->pw_shell);
+}
+
 int main (void) 
 {
     fprintf(stderr, "Configuring exfiles password lookup...\n");
@@ -22,11 +33,12 @@ int main (void)
     do {
         fprintf(stderr, "Calling getpwent()...\n");
         p = getpwent();
-        if (NULL == p) break;
+        if (NULL == p) {
+            fprintf(stderr, "getpwent() returned NULL\n");
+            break;
+        }
 
-        fprintf(stderr, "p != NULL\n");
-        printf("%s:%s:%d:%d\n", p->pw_name, p->pw_passwd, 
-                (int)p->pw_uid, (int)p->pw_gid);
+        print_passwd_struct(stderr, p);
     }
     while (NULL != p); 
 
