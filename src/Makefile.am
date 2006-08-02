@@ -1,6 +1,8 @@
 lib_LTLIBRARIES 	= libnss_exfiles.la
 libnss_exfiles_la_SOURCES = conf_parser.y 		\
 			    conf_lexer.l 		\
+			    exfiles-util.c		\
+			    exfiles-util.h		\
 			    nss_exfiles.c 		\
 			    nss_exfiles.h 		\
 			    strsplit.c 			\
