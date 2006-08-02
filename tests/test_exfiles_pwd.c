@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "exfiles-util.h"
+
 /*
  * NSS library file to open and load.
  */
@@ -26,7 +28,7 @@ const struct passwd t_pwd[] = {
     },
     { "wc01ley",    "",         667,    667, 
         "Wil Cooley 1",         "/home/wc01ley", 
-        "/bin/bash"
+        "/bin/bash1"
     },
 
     { NULL, NULL, 0, 0, NULL, NULL, NULL },
@@ -56,17 +58,31 @@ void *dl_handle;
 
 START_TEST(t_getpwent)
 {
+    int i;
     struct passwd *p_buf;
     enum nss_status lookup_status;
 
-    /* the passwd data is copied into this structure */
     p_buf = malloc(sizeof(struct passwd));
-
     fail_unless(NULL != p_buf, strerror(errno));
 
-    int i = 0;
+    (*exfiles_setpwent)();
+    for (i=0; t_pwd[i].pw_name != NULL; ++i) {
+        lookup_status = (*exfiles_getpwent)(p_buf, NULL, 0, NULL);
 
-    /* FIXME */
+        /* Ensure a successful return */
+        fail_unless(NSS_STATUS_SUCCESS == lookup_status, 
+                    "Lookup unsuccessful");
+        
+        /* Ensure that the expected and received UIDs match */
+        fail_unless(p_buf->pw_uid == t_pwd[i].pw_uid,
+                    "UIDs do not match");
+
+        /* Do a deep comparison of the structs */
+        fail_unless(exfiles_passwd_cmp(p_buf, &t_pwd[i]),
+                    "passwd structs differ");
+    }
+    (*exfiles_endpwent)();
+
     
 }
 END_TEST
@@ -77,7 +93,6 @@ START_TEST(t_getpwuid)
     struct passwd *p_buf;
     enum nss_status lookup_status;
 
-    /* getpwuid copies the data into this structure */
     p_buf = malloc(sizeof(struct passwd));
     fail_unless(NULL != p_buf, strerror(errno));
 
@@ -95,19 +110,41 @@ START_TEST(t_getpwuid)
         fail_unless(p_buf->pw_uid == t_pwd[i].pw_uid,
                     "UIDs do not match");
 
-        /* Do a wholesale memory comparison of the structs
-         * Uh, does this really do what I want?  Does it *really* do a 
-         * deep comparision.  If not, why am I getting now errors?
-         */
-        fail_unless(memcmp(p_buf, &t_pwd[i], sizeof(struct passwd)),
+        /* Do a deep comparison of the structs */
+        fail_unless(exfiles_passwd_cmp(p_buf, &t_pwd[i]),
                     "passwd structs differ");
     }
 }
 END_TEST
 
-START_TEST(t_getpwent)
+START_TEST(t_getpwnam)
 {
-    /* FIXME */
+    int i;
+    struct passwd *p_buf;
+    enum nss_status lookup_status;
+
+    p_buf = malloc(sizeof(struct passwd));
+    fail_unless(NULL != p_buf, strerror(errno));
+
+    for (i=0; t_pwd[i].pw_name != NULL; ++i) {
+        lookup_status = (*exfiles_getpwnam)(
+                t_pwd[i].pw_name,
+                p_buf,
+                NULL, 0, NULL);
+
+        /* Ensure a successful return */
+        fail_unless(NSS_STATUS_SUCCESS == lookup_status, 
+                    "Lookup unsuccessful");
+        
+        /* Compare username in structures */
+        fail_unless(0 == strcmp(p_buf->pw_name, t_pwd[i].pw_name),
+                    "Usernames do not match");
+
+        /* Do a deep comparison of the structs */
+        fail_unless(exfiles_passwd_cmp(p_buf, &t_pwd[i]),
+                    "passwd structs differ");
+
+    }
 }
 END_TEST
 
@@ -175,6 +212,7 @@ pwd_suite(void)
     suite_add_tcase(s, tc_core);
     tcase_add_test(tc_core, t_getpwuid);
     tcase_add_test(tc_core, t_getpwnam);
+    tcase_add_test(tc_core, t_getpwent);
 
 
     return s;
