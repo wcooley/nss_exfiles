@@ -1,7 +1,8 @@
 bin_PROGRAMS 		= test_strlist 			\
 			  test_strsplit 		\
 			  test_exfiles_pwd		\
-			  test_exfiles_util		
+			  test_exfiles_util		\
+			  test_exfiles_util_open
 
 test_strlist_SOURCES 	= test_strlist.c 		\
 			  ../src/strlist.c 		\
@@ -27,9 +28,16 @@ test_exfiles_util_SOURCES = test_exfiles_util.c		\
 
 test_exfiles_util_LDADD	= -lcheck
 
+test_exfiles_util_open_SOURCES = test_exfiles_util_open.c \
+			   ../src/exfiles-util.c	\
+			   ../src/exfiles-util.h	
+
+test_exfiles_util_open_LDADD = -lcheck
+
 AM_CPPFLAGS		= -I$(top_srcdir)/src
 
 TESTS 			= test_strlist 			\
 			  test_strsplit 		\
 			  test_exfiles_pwd		\
-			  test_exfiles_util
+			  test_exfiles_util		\
+			  test_exfiles_util_open
