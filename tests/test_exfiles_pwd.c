@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "exfiles-util.h"
+#include "exfiles-util-pwd.h"
 
 /*
  * NSS library file to open and load.
@@ -45,6 +45,8 @@ enum nss_status (*exfiles_getpwuid)(int,
                                     struct passwd *, char *, size_t, int *);
 enum nss_status (*exfiles_getpwnam)(const char *, 
                                     struct passwd *, char *, size_t, int *);
+
+void (*set_passwd_file)(char *);
 
 /* 
  * dynamic loader handle
@@ -170,6 +172,7 @@ pwd_setup(void)
         { &exfiles_getpwent,    "_nss_exfiles_getpwent_r"   },
         { &exfiles_getpwuid,    "_nss_exfiles_getpwuid_r"   },
         { &exfiles_getpwnam,    "_nss_exfiles_getpwnam_r"   },
+        { &set_passwd_file,     "_set_passwd_file"          },
         { NULL,                 NULL                        }
     };
 
@@ -182,7 +185,7 @@ pwd_setup(void)
     dlerror();
 
     for (i=0; NULL != funcs[i].fpointer; ++i) {
-        /* FIXME The pointer casting is magical to me; I got it form the man
+        /* TODO The pointer casting is magical to me; I got it form the man
          * page and it works, but I need to take the time to understand it
          * */
         *(void **) (funcs[i].fpointer) = dlsym(dl_handle, funcs[i].fname);
@@ -190,6 +193,7 @@ pwd_setup(void)
         fail_unless(NULL == dlerr, dlerr);
     }
 
+    set_passwd_file("../test-data/passwd");
 }
 
 void 
