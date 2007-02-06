@@ -17,6 +17,14 @@ EXFILE_FILE(group)
 static FILE *ex_group_f;
 
 /*
+ * Set the group file name; mainly for testing
+ */
+void
+_set_group_file(char *file) {
+    ex_group = file;
+}
+
+/*
  * Open the group file for reading
  */
 enum nss_status
