@@ -1,9 +1,16 @@
+
+#include <errno.h>
 #include <limits.h>
+#include <nss.h>
+#include <pwd.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
 
 #include "nss_exfiles.h"
 #include "exfiles-util.h"
+#include "exfiles-util-pwd.h"
 #include "strsplit.h"
 
 EXFILE_FILE(passwd)

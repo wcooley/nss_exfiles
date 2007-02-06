@@ -5,14 +5,6 @@
 #define _GNU_SOURCE
 #endif /* _GNU_SOURCE */
 
-#include <errno.h>
-#include <netdb.h>
-#include <nss.h>
-#include <pwd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <sys/types.h>
 
 /* #ifndef EXFILES_BASE */
 #ifdef DEV_MODE
