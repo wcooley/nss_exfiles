@@ -3,7 +3,12 @@ libnss_exfiles_la_SOURCES = conf_parser.y 		\
 			    conf_lexer.l 		\
 			    exfiles-util.c		\
 			    exfiles-util.h		\
-			    nss_exfiles.c 		\
+			    exfiles-util-grp.c		\
+			    exfiles-util-grp.h		\
+			    exfiles-util-pwd.c		\
+			    exfiles-util-pwd.h		\
+			    nss_exfiles_grp.c		\
+			    nss_exfiles_pwd.c 		\
 			    nss_exfiles.h 		\
 			    strsplit.c 			\
 			    strsplit.h 			\
