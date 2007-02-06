@@ -14,10 +14,11 @@ static FILE *ex_passwd_f;
  * Open the passwd file for reading
  */
 enum nss_status 
-_nss_exfiles_setpwent(void) 
-{
+_nss_exfiles_setpwent(void) {
+
     exfiles_trace_msg("Entering _nss_exfiles_setpwent");
     return exfiles_open_file(ex_passwd, &ex_passwd_f);
+
 }
 
 /*
@@ -43,7 +44,6 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
                         size_t buflen, 
                         int *errnop)
 {
-    enum nss_status status = NSS_STATUS_SUCCESS;
     char **pw_entry = NULL;     /* array of strings for each passwd field */
     char pwline[MAX_CANON];     /* buffer for line from password file */
     int llength = 0;            /* actual string length of pwline */
@@ -61,13 +61,14 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
         return NSS_STATUS_NOTFOUND;
     }
 
+    /* Read a line from the passwd file */
     if (NULL == fgets(pwline, MAX_CANON, ex_passwd_f)) {
         return NSS_STATUS_NOTFOUND;
     }
     
     llength = strlen(pwline);
 
-    pwline[llength-1] = '\0';
+    pwline[llength-1] = '\0';   /* Ensure termination */
 
     exfiles_trace_msg("Splitting pwline");
     pw_entry = strsplit(pwline, ':');
@@ -84,7 +85,7 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
         return NSS_STATUS_NOTFOUND;
     }
 
-    exfiles_trace_msg("Copying pw_entry to passwd");
+    exfiles_trace_msg("Copying pw_entry to pwbuf");
 
     if ( 0 != exfiles_copy_passwd_from_pw_entry(pwbuf, pw_entry) ) {
         perror("Failure copying from pw_entry to pwbuf");
@@ -94,15 +95,15 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
 
     exfiles_trace_msg("Returning from _nss_exfiles_getpwent_r");
 
-    return status;
+    return NSS_STATUS_SUCCESS;
 }
 
 enum nss_status 
-_nss_exfiles_getpwuid_r(uid_t uid,
-                        struct passwd *pwbuf,
-                        char *buffer,
-                        size_t buflen, 
-                        int *errnop)
+_nss_exfiles_getpwuid_r( uid_t uid,
+                         struct passwd *pwbuf,
+                         char *buffer,
+                         size_t buflen, 
+                         int *errnop)
 {
     /* Default status */
     enum nss_status status = NSS_STATUS_NOTFOUND;
@@ -123,13 +124,18 @@ _nss_exfiles_getpwuid_r(uid_t uid,
     return status;
 }
 
+/* Is this actually used? */
 enum nss_status 
-_nss_exfiles_getpwbyuid_r(uid_t uid,
+_nss_exfiles_getpwbyuid_r(
+                        uid_t uid,
                         struct passwd *pwbuf,
                         char *buffer,
                         size_t buflen, 
                         int *errnop)
 {
+
+    exfiles_trace_msg("Entering _nss_exfiles_getpwbyuid_r");
+
     return _nss_exfiles_getpwuid_r(
                         uid,
                         pwbuf,
