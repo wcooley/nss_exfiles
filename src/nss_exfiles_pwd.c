@@ -17,6 +17,12 @@ EXFILE_FILE(passwd)
 
 static FILE *ex_passwd_f;
 
+/* Set the filename to read from; mainly useful in testing */
+void
+_set_passwd_file(char *file) {
+   ex_passwd = file; 
+}
+
 /*
  * Open the passwd file for reading
  */
