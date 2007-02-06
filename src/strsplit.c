@@ -36,6 +36,7 @@ strsplit(const char *splitstr, const char splitchar) {
     char **splitdst;
     const char *begin = splitstr;
     const char *end = splitstr;
+
     splitcnt = strcnt(splitstr, splitchar);
 
     /* splitcnt+2 == number of items plus terminating NULL */
