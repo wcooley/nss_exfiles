@@ -1,0 +1,13 @@
+Short term
+==========
+* Complete passwd & group support
+* Verify correctness in threaded environment
+* Complete passwd & group test coverage
+* Verify nothing terribly dumb performance-wise
+* Write docs
+
+Longer term
+===========
+* Solaris support
+* Netgroup support
+* shadow/gshadow support
