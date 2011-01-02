@@ -1,5 +1,5 @@
 #ifndef NSS_EXFILES_H
-#define NSS_EXFILES_H 1
+#define NSS_EXFILES_H
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE

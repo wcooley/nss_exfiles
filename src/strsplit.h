@@ -1,6 +1,6 @@
 
 #ifndef STRSPLIT_H
-#define STRSPLIT_H 1
+#define STRSPLIT_H
 
 int strcnt(const char *, const char);
 
