@@ -1,11 +1,13 @@
 *.in
 *.o
+*.la
 *.lo
 .deps
 .libs
 Makefile
 aclocal.m4
 autom4te.cache/
+config.cache
 config.h
 config.log
 config.status
