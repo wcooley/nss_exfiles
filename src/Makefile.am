@@ -11,9 +11,8 @@ libnss_exfiles_la_SOURCES = conf_parser.y 		\
 			    nss_exfiles_pwd.c 		\
 			    nss_exfiles.h 		\
 			    strsplit.c 			\
-			    strsplit.h 			\
-			    strlist.c 			\
-			    strlist.h 
+			    strsplit.h
+
 libnss_exfiles_la_LDFLAGS = -version-info 2:0:0
 
 AM_YFLAGS = -d
