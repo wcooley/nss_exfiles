@@ -22,3 +22,10 @@ src/conf_parser.c
 src/conf_parser.h
 stamp-h1
 tests/Makefile
+
+# Test binaries
+tests/test_exfiles_grp
+tests/test_exfiles_pwd
+tests/test_exfiles_util_open
+tests/test_exfiles_util_pwd
+tests/test_strsplit
