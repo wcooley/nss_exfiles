@@ -1,5 +1,6 @@
 Short term
 ==========
+* Hook up conf parser instead of static file names
 * Complete passwd & group support
 * Verify correctness in threaded environment
 * Complete passwd & group test coverage
