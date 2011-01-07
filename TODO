@@ -1,11 +1,9 @@
 Short term
 ==========
 * Conf parser:
-** Resurrect strlist code; forgot I'd written it for implementing the parsed
-config data structures
 ** Finish implementing parser by having it build data structures
 ** Write tests for parser
-** Add prefix to support multiple Yacc parsers
+** Enable re-entrancy for parser?
 * Complete passwd & group support
 ** Need to determine what remains--mostly just group, I think.
 * Verify correctness in threaded environment
@@ -13,6 +11,12 @@ config data structures
 * Complete passwd & group test coverage
 * Verify nothing terribly dumb performance-wise
 * Write docs
+
+Short term - Done
+-----------------
+** Resurrect strlist code; forgot I'd written it for implementing the parsed
+config data structures
+** Add prefix to support multiple Yacc parsers
 
 Longer term
 ===========
