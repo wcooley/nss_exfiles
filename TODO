@@ -1,8 +1,15 @@
 Short term
 ==========
-* Hook up conf parser instead of static file names
+* Conf parser:
+** Resurrect strlist code; forgot I'd written it for implementing the parsed
+config data structures
+** Finish implementing parser by having it build data structures
+** Write tests for parser
+** Add prefix to support multiple Yacc parsers
 * Complete passwd & group support
+** Need to determine what remains--mostly just group, I think.
 * Verify correctness in threaded environment
+** Need to write & run some tests
 * Complete passwd & group test coverage
 * Verify nothing terribly dumb performance-wise
 * Write docs
@@ -11,4 +18,4 @@ Longer term
 ===========
 * Solaris support
 * Netgroup support
-* shadow/gshadow support
+* shadow/gshadow support?
