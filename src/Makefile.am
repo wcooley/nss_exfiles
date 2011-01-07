@@ -15,4 +15,5 @@ libnss_exfiles_la_SOURCES = conf_parser.y 		\
 
 libnss_exfiles_la_LDFLAGS = -version-info 2:0:0
 
-AM_YFLAGS = -d
+AM_YFLAGS = -d --name-prefix=_nss_exfiles_
+AM_LFLAGS = -P_nss_exfiles_

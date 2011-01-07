@@ -5,14 +5,15 @@
 #define CONF_PATH ""
 #endif /* CONF_PATH */
 
-int yylex(void);
-void yyerror (char const *);
+int _nss_exfiles_lex(void);
+void _nss_exfiles_error (char const *);
 %}
 
 %union {
     char * string;
 }
 
+%debug
 %token <string> PWBACKEND PATHNAME
 %token NL
 /* %type <string> statement */
@@ -29,18 +30,9 @@ stmt: PWBACKEND ':' PATHNAME NL
 
 %%
 
-extern FILE *yyin;
-extern int yylineno;
+extern FILE *_nss_exfiles_in;
+extern int _nss_exfiles_lineno;
 
-int main(void) {
-    yyin = fopen(CONF_PATH "exfiles.conf", "r");
-    do {
-        yyparse();
-    } while(!feof(yyin));
-
-    return 0;
-}
-
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s, line %d\n", s, yylineno);
+void _nss_exfiles_error(const char *s) {
+    fprintf(stderr, "Error: %s, line %d\n", s, _nss_exfiles_lineno);
 }
