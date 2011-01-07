@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# qupdate - Quick script to update for autotools mess
+#
+
+TOPDIR="$(readlink -f $(dirname $0)/..)"
+
+cd "$TOPDIR"
+automake
+autoconf
+./configure -C
