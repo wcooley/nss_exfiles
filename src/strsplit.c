@@ -6,7 +6,7 @@
 /*
  * strcnt - Count the number of occurrances of a character in a string
  */
-int 
+int
 strcnt(const char *str, const char char_to_cnt) {
     int count = 0;
 
@@ -29,7 +29,7 @@ strcnt(const char *str, const char char_to_cnt) {
  *
  * Returns a NULL-terminated array of strings.
  */
-char ** 
+char **
 strsplit(const char *splitstr, const char splitchar) {
     int splitcnt = 0;
     int i, j, slen;
@@ -40,7 +40,7 @@ strsplit(const char *splitstr, const char splitchar) {
     splitcnt = strcnt(splitstr, splitchar);
 
     /* splitcnt+2 == number of items plus terminating NULL */
-    splitdst = malloc((size_t) sizeof(char *) * (splitcnt + 2));
+    splitdst = malloc((size_t) sizeof(char *) *(splitcnt + 2));
 
     if (NULL == splitdst)
         return NULL;
@@ -52,15 +52,15 @@ strsplit(const char *splitstr, const char splitchar) {
         /* Scan to the end of the string, that being either a null char
          * or the character to split on
          */
-        while (*end != splitchar && '\0' != *end) 
+        while (*end != splitchar && '\0' != *end)
             ++end;
 
         slen = end - begin;
         splitdst[i] = malloc((size_t)slen+1);
 
-        /* FIXME - Need to think about this 
+        /* FIXME - Need to think about this
          * It will return a partial list on malloc failure.  Good or bad?
-         */ 
+         */
         if (NULL == splitdst[i])
             return splitdst;
 
@@ -77,9 +77,9 @@ strsplit(const char *splitstr, const char splitchar) {
 /*
  * strsplit_free - Frees the memory allocated by strsplit.
  */
-void 
-strsplit_free(char ** splat) {
-    char ** splatorig = splat;
+void
+strsplit_free(char **splat) {
+    char **splatorig = splat;
     while (NULL != *splat) {
         free(*splat);
         ++splat;

@@ -5,7 +5,7 @@
  * Copyright (C) 2005 Naked Ape Consulting, Ltd.
  *
  * Redistribution permitted under terms of the GNU GPL v2.
- * 
+ *
  */
 
 #include <stdlib.h>
@@ -15,8 +15,8 @@
 /*
  * strlist_create_list - Create a new list.  Returns a pointer to strlist.
  */
-strlist * strlist_create_list(void) {
-    strlist * l;
+strlist *strlist_create_list(void) {
+    strlist *l;
 
     l = malloc(sizeof(strlist));
     l->head = NULL;
@@ -28,8 +28,8 @@ strlist * strlist_create_list(void) {
  * strlist_create_node - Create a new, empty node.  Returns a pointer to a
  * strlist_node.
  */
-strlist_node * strlist_create_node(void) {
-    strlist_node * n;
+strlist_node *strlist_create_node(void) {
+    strlist_node *n;
 
     n = malloc(sizeof(strlist_node));
     n->next = NULL;
@@ -41,11 +41,11 @@ strlist_node * strlist_create_node(void) {
 /*
  * strlist_destroy_list - Destroy a list, freeing nodes and their data.
  */
-void strlist_destroy_list(strlist * list) {
-    strlist_node * curr, * next;
+void strlist_destroy_list(strlist *list) {
+    strlist_node *curr, *next;
 
     /* A list that isn't */
-    if (NULL == list) 
+    if (NULL == list)
         return;
 
     /* List with no nodes */
@@ -73,10 +73,10 @@ void strlist_destroy_list(strlist * list) {
 /*
  * strlist_destroy_node - Destroy a node, including data.
  */
-void strlist_destroy_node(strlist_node * node) {
+void strlist_destroy_node(strlist_node *node) {
 
     /* A node that isn't */
-    if (NULL == node) 
+    if (NULL == node)
         return;
 
     if (NULL != node->string)
@@ -90,8 +90,8 @@ void strlist_destroy_node(strlist_node * node) {
  * the passed new_node or list is NULL; otherwise, returns a pointer to the
  * appended node.
  */
-strlist_node * strlist_append_node(strlist * list, strlist_node * new_node) {
-    strlist_node * curr = NULL;
+strlist_node *strlist_append_node(strlist *list, strlist_node *new_node) {
+    strlist_node *curr = NULL;
 
     /* Bogus input */
     if ((NULL == new_node) || (NULL == list))
@@ -106,7 +106,7 @@ strlist_node * strlist_append_node(strlist * list, strlist_node * new_node) {
 
     curr = list->head;
 
-    while (NULL != curr->next) 
+    while (NULL != curr->next)
         curr = curr->next;
 
     curr->next = new_node;
@@ -121,7 +121,7 @@ strlist_node * strlist_append_node(strlist * list, strlist_node * new_node) {
  * error.
  */
 
-strlist_node * strlist_node_set_str(strlist_node * node, const char * str) {
+strlist_node *strlist_node_set_str(strlist_node *node, const char *str) {
 
     int lenstr = 0;
 
@@ -133,11 +133,11 @@ strlist_node * strlist_node_set_str(strlist_node * node, const char * str) {
         node->string = NULL;
     }
 
-    if (NULL == str) 
+    if (NULL == str)
         return node;
 
     lenstr = strlen(str) + 1;
-    node->string = malloc(sizeof(char) * lenstr);
+    node->string = malloc(sizeof(char) *lenstr);
 
     if (NULL == node->string)
         return NULL;
@@ -153,15 +153,15 @@ strlist_node * strlist_node_set_str(strlist_node * node, const char * str) {
  * success.
  */
 
-strlist_node * strlist_append_str(strlist * list, const char * str) {
-    strlist_node * tmpnode = NULL;
+strlist_node *strlist_append_str(strlist *list, const char *str) {
+    strlist_node *tmpnode = NULL;
     int lenstr = 0;
 
     tmpnode = strlist_create_node();
 
     if (NULL == tmpnode)
         return NULL;
-    
+
     tmpnode = strlist_node_set_str(tmpnode, str);
 
     if (NULL == tmpnode)

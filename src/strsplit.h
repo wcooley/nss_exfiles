@@ -4,7 +4,7 @@
 
 int strcnt(const char *, const char);
 
-char ** strsplit (const char *, const char);
+char **strsplit (const char *, const char);
 
 void strsplit_free(char **);
 

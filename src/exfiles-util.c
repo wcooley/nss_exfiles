@@ -14,12 +14,12 @@
  * This is intended to be used in the setXXent functions and handles almost
  * all error handling for them.
  */
-int 
+int
 exfiles_open_file(char *fname, FILE **ex_file_ptr) {
 
     enum nss_status status  = NSS_STATUS_SUCCESS;
     char err_msg[128]       = "exfiles_open_file: Failed to open file '%s'";
-    FILE * ex_file          = *ex_file_ptr;
+    FILE *ex_file          = *ex_file_ptr;
 
     exfiles_trace_msg("Entering exfiles_open_file");
 
@@ -63,8 +63,8 @@ exfiles_open_file(char *fname, FILE **ex_file_ptr) {
 /*
  * Sets the close-on-exec flag on the file handle
  */
-int 
-exfiles_set_close_on_exec(FILE * stream)
+int
+exfiles_set_close_on_exec(FILE *stream)
 {
     int result, flags, status;
 
@@ -92,10 +92,10 @@ exfiles_set_close_on_exec(FILE * stream)
  */
 
 #ifdef ENABLE_TRACE
-void exfiles_trace_msg(char * msg) {
-    if (getenv("NSS_EXFILES_TRACE")) 
+void exfiles_trace_msg(char *msg) {
+    if (getenv("NSS_EXFILES_TRACE"))
         fprintf(stderr, "TRACE: %s\n", msg);
 }
 #else
-void exfiles_trace_msg(char * msg) {}
+void exfiles_trace_msg(char *msg) {}
 #endif /* TRACE */

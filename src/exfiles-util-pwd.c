@@ -22,19 +22,19 @@
 int
 exfiles_alloc_passwd_from_pw_entry(struct passwd *pwbuf, char **pw_entry)
 {
-    /* Allocate storage for each string */ 
-    pwbuf->pw_name      = malloc(sizeof(char) * (strlen(pw_entry[0])+1)); 
-    pwbuf->pw_passwd    = malloc(sizeof(char) * (strlen(pw_entry[1])+1)); 
-    pwbuf->pw_gecos     = malloc(sizeof(char) * (strlen(pw_entry[4])+1)); 
-    pwbuf->pw_dir       = malloc(sizeof(char) * (strlen(pw_entry[5])+1)); 
-    pwbuf->pw_shell     = malloc(sizeof(char) * (strlen(pw_entry[6])+1));
+    /* Allocate storage for each string */
+    pwbuf->pw_name      = malloc(sizeof(char) *(strlen(pw_entry[0])+1));
+    pwbuf->pw_passwd    = malloc(sizeof(char) *(strlen(pw_entry[1])+1));
+    pwbuf->pw_gecos     = malloc(sizeof(char) *(strlen(pw_entry[4])+1));
+    pwbuf->pw_dir       = malloc(sizeof(char) *(strlen(pw_entry[5])+1));
+    pwbuf->pw_shell     = malloc(sizeof(char) *(strlen(pw_entry[6])+1));
 
-    if (  pwbuf->pw_name    == NULL 
+    if (  pwbuf->pw_name    == NULL
        || pwbuf->pw_passwd  == NULL
        || pwbuf->pw_gecos   == NULL
        || pwbuf->pw_dir     == NULL
        || pwbuf->pw_shell   == NULL
-    ) 
+    )
         return -1;
 
     return 0;
@@ -97,7 +97,7 @@ exfiles_copy_passwd_from_pw_entry(struct passwd *pwbuf, char **pw_entry)
 /*
  * Utility for destroying the contents of a struct passwd.
  */
-void 
+void
 exfiles_passwd_destroy(struct passwd *pwbuf)
 {
     if ( NULL != pwbuf ) {
@@ -137,8 +137,8 @@ exfiles_passwd_destroy(struct passwd *pwbuf)
 /*
  * User-friendly print of passwd struct contents.
  */
-int 
-pretty_print_passwd_struct(FILE * outstream, const struct passwd * pwbuf)
+int
+pretty_print_passwd_struct(FILE *outstream, const struct passwd *pwbuf)
 {
     return fprintf(outstream,
                 "Username:  '%s'\n"
@@ -161,10 +161,10 @@ pretty_print_passwd_struct(FILE * outstream, const struct passwd * pwbuf)
 /*
  * passwd file-like output
  */
-int 
-print_passwd_struct(FILE * outstream, const struct passwd * pwbuf) 
+int
+print_passwd_struct(FILE *outstream, const struct passwd *pwbuf)
 {
-    return fprintf(outstream, 
+    return fprintf(outstream,
                 "%s:%s:%d:%d:%s:%s:%s\n",
             pwbuf->pw_name,
             pwbuf->pw_passwd,
@@ -181,7 +181,7 @@ print_passwd_struct(FILE * outstream, const struct passwd * pwbuf)
  * true or false.  (erm, 1 or 0)
  */
 
-int 
+int
 exfiles_passwd_cmp(const struct passwd *pwbuf1, const struct passwd *pwbuf2)
 {
     return
@@ -189,7 +189,7 @@ exfiles_passwd_cmp(const struct passwd *pwbuf1, const struct passwd *pwbuf2)
       &&    (0 == strcmp(pwbuf1->pw_passwd, pwbuf2->pw_passwd)  )
       &&    (0 == strcmp(pwbuf1->pw_gecos,  pwbuf2->pw_gecos)   )
       &&    (0 == strcmp(pwbuf1->pw_dir,    pwbuf2->pw_dir)     )
-      &&    (0 == strcmp(pwbuf1->pw_shell,  pwbuf2->pw_shell)   ) 
+      &&    (0 == strcmp(pwbuf1->pw_shell,  pwbuf2->pw_shell)   )
       &&    (pwbuf1->pw_uid == pwbuf2->pw_uid)
       &&    (pwbuf1->pw_gid == pwbuf2->pw_gid)
       ;

@@ -13,7 +13,7 @@
 #define EXFILES_BASE "/var/lib/exfiles"
 #endif /* EXFILES_BASE */
 
-#define EXFILE_FILE(file) static char * ex_ ## file =  EXFILES_BASE "/" #file;
+#define EXFILE_FILE(file) static char *ex_ ## file =  EXFILES_BASE "/" #file;
 
 
 #endif /* NSS_EXFILES_H */

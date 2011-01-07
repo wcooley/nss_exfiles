@@ -20,13 +20,13 @@ static FILE *ex_passwd_f;
 /* Set the filename to read from; mainly useful in testing */
 void
 _set_passwd_file(char *file) {
-   ex_passwd = file; 
+   ex_passwd = file;
 }
 
 /*
  * Open the passwd file for reading
  */
-enum nss_status 
+enum nss_status
 _nss_exfiles_setpwent(void) {
 
     exfiles_trace_msg("Entering _nss_exfiles_setpwent");
@@ -37,7 +37,7 @@ _nss_exfiles_setpwent(void) {
 /*
  * Close the passwd file
  */
-enum nss_status 
+enum nss_status
 _nss_exfiles_endpwent(void) {
 
     enum nss_status status = NSS_STATUS_SUCCESS;
@@ -51,10 +51,10 @@ _nss_exfiles_endpwent(void) {
 }
 
 
-enum nss_status 
-_nss_exfiles_getpwent_r(struct passwd *pwbuf, 
-                        char *buffer, 
-                        size_t buflen, 
+enum nss_status
+_nss_exfiles_getpwent_r(struct passwd *pwbuf,
+                        char *buffer,
+                        size_t buflen,
                         int *errnop)
 {
     char **pw_entry = NULL;     /* array of strings for each passwd field */
@@ -78,7 +78,7 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
     if (NULL == fgets(pwline, MAX_CANON, ex_passwd_f)) {
         return NSS_STATUS_NOTFOUND;
     }
-    
+
     llength = strlen(pwline);
 
     pwline[llength-1] = '\0';   /* Ensure termination */
@@ -111,11 +111,11 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
     return NSS_STATUS_SUCCESS;
 }
 
-enum nss_status 
+enum nss_status
 _nss_exfiles_getpwuid_r( uid_t uid,
                          struct passwd *pwbuf,
                          char *buffer,
-                         size_t buflen, 
+                         size_t buflen,
                          int *errnop)
 {
     /* Default status */
@@ -124,7 +124,7 @@ _nss_exfiles_getpwuid_r( uid_t uid,
     exfiles_trace_msg("Entering _nss_exfiles_getpwuid_r");
 
     if (NSS_STATUS_SUCCESS == _nss_exfiles_setpwent()) {
-        while (NSS_STATUS_SUCCESS 
+        while (NSS_STATUS_SUCCESS
                 == _nss_exfiles_getpwent_r(pwbuf, buffer, buflen, errnop)){
 
             if (uid == pwbuf->pw_uid) {
@@ -138,12 +138,12 @@ _nss_exfiles_getpwuid_r( uid_t uid,
 }
 
 /* Is this actually used? */
-enum nss_status 
+enum nss_status
 _nss_exfiles_getpwbyuid_r(
                         uid_t uid,
                         struct passwd *pwbuf,
                         char *buffer,
-                        size_t buflen, 
+                        size_t buflen,
                         int *errnop)
 {
 
@@ -153,7 +153,7 @@ _nss_exfiles_getpwbyuid_r(
                         uid,
                         pwbuf,
                         buffer,
-                        buflen, 
+                        buflen,
                         errnop
                         )
         ;
@@ -163,9 +163,9 @@ _nss_exfiles_getpwbyuid_r(
 
 enum nss_status
 _nss_exfiles_getpwnam_r(const char *pwnam,
-                        struct passwd *pwbuf, 
-                        char *buffer, 
-                        size_t buflen, 
+                        struct passwd *pwbuf,
+                        char *buffer,
+                        size_t buflen,
                         int *errnop)
 {
     /* Default status */
@@ -175,11 +175,11 @@ _nss_exfiles_getpwnam_r(const char *pwnam,
     pwnam_length = strlen(pwnam);
 
     if (NSS_STATUS_SUCCESS == _nss_exfiles_setpwent()) {
-        while (NSS_STATUS_SUCCESS == 
+        while (NSS_STATUS_SUCCESS ==
                 _nss_exfiles_getpwent_r(pwbuf, buffer, buflen, errnop)){
-            /* Compare requested username with current entry 
-             * first checking that they're the same length 
-             */ 
+            /* Compare requested username with current entry
+             * first checking that they're the same length
+             */
             if (strlen(pwbuf->pw_name) != pwnam_length)
                 break;
 

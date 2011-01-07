@@ -17,8 +17,8 @@
 int
 exfiles_alloc_group_from_gr_entry(struct group *grbuf, char **gr_entry) {
 
-    grbuf->gr_name      = malloc(sizeof(char) * (strlen(gr_entry[0])+1));
-    grbuf->gr_passwd    = malloc(sizeof(char) * (strlen(gr_entry[1])+1));
+    grbuf->gr_name      = malloc(sizeof(char) *(strlen(gr_entry[0])+1));
+    grbuf->gr_passwd    = malloc(sizeof(char) *(strlen(gr_entry[1])+1));
 
     if (    grbuf->gr_name      == NULL
         ||  grbuf->gr_passwd    == NULL

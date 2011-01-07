@@ -110,7 +110,7 @@ _nss_exfiles_getgrent_r(struct group *grbuf,
 
     return NSS_STATUS_SUCCESS;
 }
-    
+
 
 enum nss_status
 _nss_exfiles_getgrgid_r(
@@ -154,11 +154,11 @@ _nss_exfiles_getgrnam_r(const char *grnam,
     grname_length = strlen(grnam);
 
     if (NSS_STATUS_SUCCESS == _nss_exfiles_setgrent()) {
-        while (NSS_STATUS_SUCCESS == 
+        while (NSS_STATUS_SUCCESS ==
                 _nss_exfiles_getgrent_r(grbuf, buffer, buflen, errnop)){
-            /* Compare requested group name with current entry 
-             * first checking that they're the same length 
-             */ 
+            /* Compare requested group name with current entry
+             * first checking that they're the same length
+             */
             if (strlen(grbuf->gr_name) != grname_length)
                 break;
 
