@@ -4,6 +4,7 @@ Short term
 ** Finish implementing parser by having it build data structures
 ** Write tests for parser
 ** Enable re-entrancy for parser?
+** Re-write using scanf instead of lex/yacc.
 * Complete passwd & group support
 ** Need to determine what remains--mostly just group, I think.
 * Verify correctness in threaded environment
