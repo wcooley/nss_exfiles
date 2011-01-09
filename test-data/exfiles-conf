@@ -1,0 +1,9 @@
+passwd: /var/foo-pass
+# this is a comment
+passwd: /etc/bar-pass
+    # another comment
+group: /tmp/group
+
+group: /nfs/groupie # comment
+
+passwd: /bar/baz group: /bab/zab # commie
