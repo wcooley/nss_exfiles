@@ -20,7 +20,6 @@ typedef struct _strlist_node {
 
 typedef struct _strlist {
     strlist_node *head;
-    sem_t lock;
 }   strlist;
 
 strlist      *strlist_create_list(void);

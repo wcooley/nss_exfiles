@@ -22,11 +22,6 @@ strlist *strlist_create_list(void) {
     list = calloc(1, sizeof(strlist));
     if (NULL == list) return NULL;
 
-    if (sem_init(&list->lock, 0, 1) != 0) {
-        free(list);
-        return NULL;
-    }
-
     return list;
 
 }
@@ -57,37 +52,18 @@ void strlist_destroy_list(strlist *list) {
     if (NULL == list)
         return;
 
-    /* Lock the list */
-    if (sem_wait(&list->lock) != 0)
-        return; /* FIXME How can we report error? */
+    /* List has at least one node */
+    if (NULL != list->head) {
+        curr = list->head;
+        do {
+            next = curr->next;
+            strlist_destroy_node(curr);
+            curr = next;
+        } while (NULL != curr);
+    }
 
-    /* List with no nodes */
-    if (NULL == list->head)
-        goto nonodes;
-
-    /* List with only one node */
-    /*
-    if (NULL == list->head->next)
-        goto onenode;
-        */
-
-    curr = list->head;
-    do {
-        next = curr->next;
-        strlist_destroy_node(curr);
-        curr = next;
-    } while (NULL != curr);
-
-    /*
-onenode:
-    strlist_destroy_node(list->head);
-    */
-
-nonodes:
-    sem_destroy(&list->lock);
     free((void *)list);
 
-nolist:
     return;
 
 }
