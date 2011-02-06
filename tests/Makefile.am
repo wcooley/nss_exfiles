@@ -49,11 +49,12 @@ test_exfiles_util_open_SOURCES = test_exfiles_util_open.c 	\
 test_exfiles_util_open_LDADD = -lcheck
 
 test_parser_SOURCES 	= test_parser.c				\
-			  ../src/conf_parser.c			\
-			  ../src/conf_lexer.c
+			  ../src/exfiles-conf-parser.c		\
+			  ../src/exfiles-conf-parser.h		\
+			  ../src/strlist.c			\
+			  ../src/strlist.h
 
 test_parser_LDADD = -lcheck
-
 
 AM_CPPFLAGS		= -I$(top_srcdir)/src
 

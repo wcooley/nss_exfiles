@@ -2,16 +2,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
-START_TEST (parser_null)
+
+#include "exfiles-conf-parser.h"
+
+START_TEST (test_parser_null)
 {
-    FILE *_nss_exfiles_in;
-    int yyret;
+    FILE *cfgfile;
+    struct exfiles_conf conf;
 
-    _nss_exfiles_in = fopen("/dev/null", "r");
-    _nss_exfiles_debug=1;
+    cfgfile = fopen("/dev/null", "r");
 
-    yyret = _nss_exfiles_parse();
+    fail_unless( exfiles_init_config(&conf) == 0,
+                "error initializing exfiles_conf struct");
+
+    fail_unless( exfiles_parse_config(cfgfile, &conf) == 0,
+                "error parsing config file");
+
+    fail_unless( (conf.passwd)->head == NULL,
+                "/dev/null input but passwd has non-null head node");
+
+    fail_unless( (conf.group)->head == NULL,
+                "/dev/null input but group has non-null head node");
+
+
 }
 END_TEST
 
@@ -22,6 +35,8 @@ parser_suite(void)
     TCase *tc_core = tcase_create("Core");
 
     suite_add_tcase(tsuite, tc_core);
+
+    tcase_add_test(tc_core, test_parser_null);
 
     return tsuite;
 }
@@ -40,7 +55,7 @@ main(void)
     return (numfailed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 
 }
-*/
+
 /* Quick & dirty manual test of parser for now */
 
 /*
