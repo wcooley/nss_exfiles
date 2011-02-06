@@ -9,6 +9,9 @@ group: /nfs/groupie # comment
 passwd: /bar/baz group: /bab/zab # commie
 
 publickeys: /dev/null
-
+
 publickeysandstuff: /foo/bar
 passwd: sdlfs # yow
+    passwd: /alt/binaries/pictures  
+
+group:		/tab/over-here
