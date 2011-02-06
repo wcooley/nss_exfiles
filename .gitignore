@@ -33,3 +33,4 @@ tests/test_exfiles_util_pwd
 tests/test_strsplit
 tests/test_strlist
 tests/test_parser
+src/exfiles-conf-parser
