@@ -8,7 +8,9 @@
 
 /* #ifndef EXFILES_BASE */
 #ifdef DEV_MODE
+#ifndef EXFILES_BASE
 #define EXFILES_BASE "/net/rheingold/home/wcooley/nakedape/pub/small-projects/nss_exfiles/test-data/"
+#endif
 #else
 #define EXFILES_BASE "/var/lib/exfiles"
 #endif /* EXFILES_BASE */
