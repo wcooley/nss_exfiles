@@ -1,26 +1,41 @@
 Short term
 ==========
+* Conf:
+** Design & implement structures & routines
+*** Open main conf, parse & build
+*** Iterate through conf struct and open files?
+**** Or open db files only when/if necessary?
+
 * Conf parser:
-** Finish implementing parser by having it build data structures
 ** Write tests for parser
-** Enable re-entrancy for parser?
-** Re-write using scanf instead of lex/yacc.
+
 * Complete passwd & group support
 ** Need to determine what remains--mostly just group, I think.
-* Verify correctness in threaded environment
 ** Need to write & run some tests
 * Complete passwd & group test coverage
 * Verify nothing terribly dumb performance-wise
 * Write docs
+
+* Think about locking & threading
+** Is it necessary to lock? Does a set/get+/end "transaction" happen only in
+one thread?
+** Verify correctness in threaded environment
 
 Short term - Done
 -----------------
 ** Resurrect strlist code; forgot I'd written it for implementing the parsed
 config data structures
 ** Add prefix to support multiple Yacc parsers
+** Re-write conf parser using scanf instead of lex/yacc.
+
+Short term - Scrapped
+---------------------
+** Enable re-entrancy for parser w/lex/yacc?
 
 Longer term
 ===========
 * Solaris support
 * Netgroup support
-* shadow/gshadow support?
+* shadow/gshadow support
+* Support globbing in conf file?
+* Improve automake/conf/libtool use
