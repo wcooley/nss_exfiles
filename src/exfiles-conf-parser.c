@@ -20,12 +20,12 @@ exfiles_parse_config(FILE *cfgfile, struct exfiles_conf *conf) {
             continue;
 
         if (fscanf(cfgfile, " passwd: %" XSTR(PATH_MAX) "s", file) == 1) {
-            printf("type = passwd, file = %s\n", file);
+            /*printf("type = passwd, file = %s\n", file);*/
             strlist_append_str(conf->passwd, file);
         }
 
         else if (fscanf(cfgfile, " group: %" XSTR(PATH_MAX) "s", file) == 1) {
-            printf("type = group, file = %s\n", file);
+            /*printf("type = group, file = %s\n", file);*/
             strlist_append_str(conf->group, file);
         }
 
