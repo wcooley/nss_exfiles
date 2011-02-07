@@ -1,4 +1,4 @@
-bin_PROGRAMS 		= test_strlist 				\
+noinst_PROGRAMS 	= test_strlist 				\
 			  test_strsplit 			\
 			  test_exfiles_grp			\
 			  test_exfiles_pwd			\
@@ -48,13 +48,9 @@ test_exfiles_util_open_SOURCES = test_exfiles_util_open.c 	\
 
 test_exfiles_util_open_LDADD = -lcheck
 
-test_parser_SOURCES 	= test_parser.c				\
-			  ../src/exfiles-conf-parser.c		\
-			  ../src/exfiles-conf-parser.h		\
-			  ../src/strlist.c			\
-			  ../src/strlist.h
+test_parser_SOURCES 	= test_parser.c
 
-test_parser_LDADD = -lcheck
+test_parser_LDADD = ../src/libexfiles-conf-parser.la -lcheck
 
 AM_CPPFLAGS		= -I$(top_srcdir)/src
 
@@ -63,4 +59,5 @@ TESTS 			= test_strlist 				\
 			  test_exfiles_grp			\
 			  test_exfiles_pwd			\
 			  test_exfiles_util_pwd			\
-			  test_exfiles_util_open
+			  test_exfiles_util_open		\
+			  test_parser
