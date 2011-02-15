@@ -23,13 +23,10 @@ fi
 
 # Checks for programs.
 AC_PROG_LIBTOOL
-AC_PROG_YACC
 AC_PROG_CC
-AC_PROG_LEX
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-ll':
-AC_CHECK_LIB([l], [main])
 AC_CHECK_LIB([check], [main])
 
 # Checks for header files.

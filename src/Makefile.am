@@ -24,6 +24,3 @@ libexfiles_conf_parser_la_SOURCES = exfiles-conf-parser.c \
 				    exfiles-conf-parser.h
 
 libexfiles_conf_parser_la_LIBADD = libstrlist.la
-
-AM_YFLAGS = -d --name-prefix=_nss_exfiles_
-AM_LFLAGS = -P_nss_exfiles_
