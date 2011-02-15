@@ -15,7 +15,8 @@ libnss_exfiles_la_SOURCES = exfiles-util.c		\
 
 libnss_exfiles_la_LIBADD = libexfiles-conf-parser.la
 
-libnss_exfiles_la_LDFLAGS = -version-info 2:0:0
+libnss_exfiles_la_LDFLAGS = -version-info 2:0:0 \
+			    -export-symbols-regex '^_nss_exfiles_'
 
 libstrlist_la_SOURCES = strlist.c strlist.h
 
