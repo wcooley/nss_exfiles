@@ -1,9 +1,11 @@
 *~
 .*.swp
+*.i
 *.in
 *.o
 *.la
 *.lo
+*.s
 .deps
 .libs
 Makefile
