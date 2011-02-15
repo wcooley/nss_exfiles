@@ -39,3 +39,4 @@ Longer term
 * shadow/gshadow support
 * Support globbing in conf file?
 * Improve automake/conf/libtool use
+** Find way to skip checks if 'check' is not installed

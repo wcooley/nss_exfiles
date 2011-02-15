@@ -26,12 +26,11 @@ AC_PROG_LIBTOOL
 AC_PROG_CC
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-ll':
-AC_CHECK_LIB([check], [main])
+AM_PATH_CHECK()
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([limits.h netdb.h stdlib.h string.h])
+AC_CHECK_HEADERS([limits.h pwd.h stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
