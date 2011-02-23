@@ -13,13 +13,24 @@
 #ifndef FNODE_H
 #define FNODE_H
 
+#include <stdio.h>
+#include <sys/types.h>
+
 struct fnode {
     char *path;         /* File path */
     FILE *handle;       /* File handle */
     time_t mtime;       /* Mod time */
 };
 
-fnode *fnode_new(void);
-void fnode_destroy(fnode *);
+struct fnode *fnode_new(void);
+void fnode_destroy(struct fnode *);
+struct fnode *fnode_set_path(fnode *, const char *);
+FILE *fnode_fopen(fnode *);
+
+#define close_handle(node)          \
+    if (NULL != (node)->handle) {   \
+        fclose((node)->handle);     \
+        (node)->handle = NULL;      \
+    }
 
 #endif /* FNODE_H */

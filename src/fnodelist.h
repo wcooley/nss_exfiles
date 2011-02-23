@@ -11,24 +11,25 @@
 #ifndef FNODELIST_H
 #define FNODELIST_H
 
-typedef struct _fnodelist_node {
-    struct _fnodelist_node  *next;
-    char *string;
-}   fnodelist_node;
+#include "fnode.h"
 
-typedef struct _fnodelist {
-    fnodelist_node *head;
-}   fnodelist;
+struct fnodelist_item {
+    struct fnodelist_item  *next;
+    struct fnode *node;
+};
 
-fnodelist      *fnodelist_create_list(void);
-fnodelist_node *fnodelist_create_node(void);
+struct fnodelist {
+    fnodelist_item *head;
+};
 
-void fnodelist_destroy_list(fnodelist *list);
-void fnodelist_destroy_node(fnodelist_node *node);
+fnodelist      *fnodelist_new_list(void);
+fnodelist_item *fnodelist_new_item(void);
 
-fnodelist_node *fnodelist_node_set_str(fnodelist_node *node, const char *str);
-fnodelist_node *fnodelist_append_str(fnodelist *list, const char *str);
-fnodelist_node *fnodelist_append_node(fnodelist *list, fnodelist_node *node);
+void fnodelist_destroy_list(fnodelist *);
+
+struct fnodelist_item *fnodelist_append(fnodelist *, fnodelist_item *);
+struct fnode *fnodelist_append_fnode(fnodelist *, fnode *);
+struct fnode *fnodelist_append_path(fnodelist *, char *);
 
 
 #endif /* FNODELIST_H */

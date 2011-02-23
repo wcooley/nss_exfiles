@@ -12,41 +12,40 @@
 #include <string.h>
 #include "fnodelist.h"
 
-/*
- * fnodelist_create_list - Create a new list.  Returns a pointer to fnodelist.
+/**
+ * fnodelist_new_list - Create a new list.
+ * @return Pointer to fnodelist
  */
-fnodelist *fnodelist_create_list(void) {
-    fnodelist *list;
+struct fnodelist *fnodelist_new_list(void) {
+    struct fnodelist *list;
     int ret;
 
-    list = calloc(1, sizeof(fnodelist));
+    list = calloc(1, sizeof(struct fnodelist));
     if (NULL == list) return NULL;
 
     return list;
 
 }
 
-/*
- * fnodelist_create_node - Create a new, empty node.  Returns a pointer to a
- * fnodelist_node.
+/**
+ * fnodelist_new_item - Create a new, empty node.
+ * @return Pointer to an fnodelist_item.
  */
-fnodelist_node *fnodelist_create_node(void) {
-    fnodelist_node *n;
+struct fnodelist_item *fnodelist_new_item(void) {
+    struct fnodelist_item *n;
 
-    n = malloc(sizeof(fnodelist_node));
+    n = malloc(sizeof(struct fnodelist_item));
     if (NULL == n) return NULL;
-
-    n->next = NULL;
-    n->string = NULL;
 
     return n;
 }
 
-/*
+/**
  * fnodelist_destroy_list - Destroy a list, freeing nodes and their data.
+ * @param list fnodelist to be destroyed
  */
-void fnodelist_destroy_list(fnodelist *list) {
-    fnodelist_node *curr, *next;
+void fnodelist_destroy_list(struct fnodelist *list) {
+    struct fnodelist_item *curr, *next;
 
     /* A list that isn't */
     if (NULL == list)
@@ -57,7 +56,7 @@ void fnodelist_destroy_list(fnodelist *list) {
         curr = list->head;
         do {
             next = curr->next;
-            fnodelist_destroy_node(curr);
+            fnode_destroy(curr->node);
             curr = next;
         } while (NULL != curr);
     }
@@ -68,36 +67,34 @@ void fnodelist_destroy_list(fnodelist *list) {
 
 }
 
-/*
- * fnodelist_destroy_node - Destroy a node, including data.
+/**
+ * fnodelist_append - Appends an item to the end of a list.
+ *
+ * @param list List to append to.
+ * @param new_item New item to be appended. If NULL, will create a new item.
+ *
+ * @return NULL if the list is NULL or other error; otherwise,
+ * a pointer to the appended item.
+ *
  */
-void fnodelist_destroy_node(fnodelist_node *node) {
+struct fnodelist_item *fnodelist_append(struct fnodelist *list,
+                                        struct fnodelist_item *new_item) {
 
-    /* A node that isn't */
-    if (NULL == node)
-        return;
-
-    if (NULL != node->string)
-        free((void*)node->string);
-
-    free((void*)node);
-}
-
-/*
- * fnodelist_append_node - Appends a node to the end of a list.  Returns NULL if
- * the passed new_node or list is NULL; otherwise, returns a pointer to the
- * appended node.
- */
-fnodelist_node *fnodelist_append_node(fnodelist *list, fnodelist_node *new_node) {
-    fnodelist_node *curr = NULL;
+    struct fnodelist_item *curr = NULL;
 
     /* Bogus input */
-    if ((NULL == new_node) || (NULL == list))
+    if (NULL == list)
         return NULL;
+
+    /* Create new item since one wasn't provided */
+    if (NULL == new_item) {
+        new_item = fnodelist_new_item();
+        if (NULL == new_item) return NULL;
+    }
 
     /* Empty list */
     if (NULL == list->head) {
-        list->head = new_node;
+        list->head = new_item;
         list->head->next = NULL;
         return list->head;
     }
@@ -107,63 +104,60 @@ fnodelist_node *fnodelist_append_node(fnodelist *list, fnodelist_node *new_node)
     while (NULL != curr->next)
         curr = curr->next;
 
-    curr->next = new_node;
+    curr->next = new_item;
     curr->next->next = NULL;
     return curr->next;
 }
 
-/*
- * fnodelist_node_set_str - Given a node and a string, copy the string into the
- * node, first freeing any existing string.  As a special case, if str is
- * NULL, just free the existing string.  Returns the node pointer or NULL on
- * error.
+/**
+ * fnodelist_append_fnode - Append an fnode to an fnodelist, hiding the
+ * fnodelist_item from the user.
+ *
+ * @param list List to append fnode to.
+ * @param node Pointer to fnode to append to list or create if NULL.
+ *
+ * @return Pointer to appended fnode or NULL on error.
  */
 
-fnodelist_node *fnodelist_node_set_str(fnodelist_node *node, const char *str) {
+struct fnode *fnodelist_append_fnode(fnodelist *list, fnode *node) {
+    struct fnodelist_item *new_item = NULL;
 
-    int lenstr = 0;
+    if (NULL == list) return NULL;
 
-    if (NULL == node)
+    new_item = fnodelist_append(list, NULL);
+
+    if (NULL == new_item)
         return NULL;
 
-    if (NULL != node->string) {
-        free(node->string);
-        node->string = NULL;
+    if (NULL == node) {
+        node = fnode_new();
+        if (NULL == node) {
+            free(new_item);
+            return NULL;
+        }
     }
 
-    if (NULL == str)
-        return node;
+    new_item->node = node;
 
-    lenstr = strlen(str) + 1;
-    node->string = malloc(sizeof(char) *lenstr);
-
-    if (NULL == node->string)
-        return NULL;
-
-    strncpy(node->string, str, lenstr);
-
-    return node;
+    return new_item->node;
 }
 
-/*
- * fnodelist_append_str - Given a list and string, create and append a new node
- * with the string.  Returns NULL on error and a pointer to the new node on
- * success.
+/**
+ * fnodelist_append_path - Append an fnode with path to fnodelist.
+ *
+ * @param list List to append to.
+ * @param path Path string in new fnode.
+ *
+ * @return Pointer to appended fnode or NULL on error.
  */
 
-fnodelist_node *fnodelist_append_str(fnodelist *list, const char *str) {
-    fnodelist_node *tmpnode = NULL;
-    int lenstr = 0;
+struct fnode *fnodelist_append_path(fnodelist *list, char *path) {
 
-    tmpnode = fnodelist_create_node();
+    struct fnode *new_node = NULL;
 
-    if (NULL == tmpnode)
-        return NULL;
+    new_node = fnodelist_append_fnode(list, NULL);
+    if (NULL == new_node) return NULL;
 
-    tmpnode = fnodelist_node_set_str(tmpnode, str);
+    return fnode_set_path(new_node, path);
 
-    if (NULL == tmpnode)
-        return NULL;
-
-    return fnodelist_append_node(list, tmpnode);
 }
