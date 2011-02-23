@@ -11,8 +11,6 @@
 #ifndef STRLIST_H
 #define STRLIST_H
 
-#include <semaphore.h>
-
 typedef struct _strlist_node {
     struct _strlist_node  *next;
     char *string;
