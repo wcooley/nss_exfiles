@@ -20,6 +20,12 @@ if test "$enable_trace" = no; then
     AC_DEFINE([ENABLE_TRACE], [], [Enable tracing])
 fi
 
+#skip detection of Fortran
+m4_undefine([AC_PROG_F77])
+m4_defun([AC_PROG_F77],[])
+m4_undefine([AC_PROG_FC])
+m4_defun([AC_PROG_FC],[])
+
 
 # Checks for programs.
 AC_PROG_LIBTOOL
