@@ -1,5 +1,5 @@
 /*
- * string_list.h - Basic linked-list-of-strings implementation.
+ * fnodelist.h - Linked list of fnodes.
  *
  * Written by Wil Cooley <wcooley@nakedape.cc>
  * Copyright (C) 2005 Naked Ape Consulting, Ltd.
@@ -8,29 +8,27 @@
  *
  */
 
-#ifndef STRLIST_H
-#define STRLIST_H
+#ifndef FNODELIST_H
+#define FNODELIST_H
 
-#include <semaphore.h>
-
-typedef struct _strlist_node {
-    struct _strlist_node  *next;
+typedef struct _fnodelist_node {
+    struct _fnodelist_node  *next;
     char *string;
-}   strlist_node;
+}   fnodelist_node;
 
-typedef struct _strlist {
-    strlist_node *head;
-}   strlist;
+typedef struct _fnodelist {
+    fnodelist_node *head;
+}   fnodelist;
 
-strlist      *strlist_create_list(void);
-strlist_node *strlist_create_node(void);
+fnodelist      *fnodelist_create_list(void);
+fnodelist_node *fnodelist_create_node(void);
 
-void strlist_destroy_list(strlist *list);
-void strlist_destroy_node(strlist_node *node);
+void fnodelist_destroy_list(fnodelist *list);
+void fnodelist_destroy_node(fnodelist_node *node);
 
-strlist_node *strlist_node_set_str(strlist_node *node, const char *str);
-strlist_node *strlist_append_str(strlist *list, const char *str);
-strlist_node *strlist_append_node(strlist *list, strlist_node *node);
+fnodelist_node *fnodelist_node_set_str(fnodelist_node *node, const char *str);
+fnodelist_node *fnodelist_append_str(fnodelist *list, const char *str);
+fnodelist_node *fnodelist_append_node(fnodelist *list, fnodelist_node *node);
 
 
-#endif /* STRLIST_H */
+#endif /* FNODELIST_H */

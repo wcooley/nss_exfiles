@@ -1,5 +1,5 @@
 /*
- * strlist.h - Basic linked-list-of-strings implementation.
+ * fnodelist.h - Linked list of file nodes.
  *
  * Written by Wil Cooley <wcooley@nakedape.cc>
  * Copyright (C) 2005 Naked Ape Consulting, Ltd.
@@ -10,16 +10,16 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "strlist.h"
+#include "fnodelist.h"
 
 /*
- * strlist_create_list - Create a new list.  Returns a pointer to strlist.
+ * fnodelist_create_list - Create a new list.  Returns a pointer to fnodelist.
  */
-strlist *strlist_create_list(void) {
-    strlist *list;
+fnodelist *fnodelist_create_list(void) {
+    fnodelist *list;
     int ret;
 
-    list = calloc(1, sizeof(strlist));
+    list = calloc(1, sizeof(fnodelist));
     if (NULL == list) return NULL;
 
     return list;
@@ -27,13 +27,13 @@ strlist *strlist_create_list(void) {
 }
 
 /*
- * strlist_create_node - Create a new, empty node.  Returns a pointer to a
- * strlist_node.
+ * fnodelist_create_node - Create a new, empty node.  Returns a pointer to a
+ * fnodelist_node.
  */
-strlist_node *strlist_create_node(void) {
-    strlist_node *n;
+fnodelist_node *fnodelist_create_node(void) {
+    fnodelist_node *n;
 
-    n = malloc(sizeof(strlist_node));
+    n = malloc(sizeof(fnodelist_node));
     if (NULL == n) return NULL;
 
     n->next = NULL;
@@ -43,10 +43,10 @@ strlist_node *strlist_create_node(void) {
 }
 
 /*
- * strlist_destroy_list - Destroy a list, freeing nodes and their data.
+ * fnodelist_destroy_list - Destroy a list, freeing nodes and their data.
  */
-void strlist_destroy_list(strlist *list) {
-    strlist_node *curr, *next;
+void fnodelist_destroy_list(fnodelist *list) {
+    fnodelist_node *curr, *next;
 
     /* A list that isn't */
     if (NULL == list)
@@ -57,7 +57,7 @@ void strlist_destroy_list(strlist *list) {
         curr = list->head;
         do {
             next = curr->next;
-            strlist_destroy_node(curr);
+            fnodelist_destroy_node(curr);
             curr = next;
         } while (NULL != curr);
     }
@@ -69,9 +69,9 @@ void strlist_destroy_list(strlist *list) {
 }
 
 /*
- * strlist_destroy_node - Destroy a node, including data.
+ * fnodelist_destroy_node - Destroy a node, including data.
  */
-void strlist_destroy_node(strlist_node *node) {
+void fnodelist_destroy_node(fnodelist_node *node) {
 
     /* A node that isn't */
     if (NULL == node)
@@ -84,12 +84,12 @@ void strlist_destroy_node(strlist_node *node) {
 }
 
 /*
- * strlist_append_node - Appends a node to the end of a list.  Returns NULL if
+ * fnodelist_append_node - Appends a node to the end of a list.  Returns NULL if
  * the passed new_node or list is NULL; otherwise, returns a pointer to the
  * appended node.
  */
-strlist_node *strlist_append_node(strlist *list, strlist_node *new_node) {
-    strlist_node *curr = NULL;
+fnodelist_node *fnodelist_append_node(fnodelist *list, fnodelist_node *new_node) {
+    fnodelist_node *curr = NULL;
 
     /* Bogus input */
     if ((NULL == new_node) || (NULL == list))
@@ -113,13 +113,13 @@ strlist_node *strlist_append_node(strlist *list, strlist_node *new_node) {
 }
 
 /*
- * strlist_node_set_str - Given a node and a string, copy the string into the
+ * fnodelist_node_set_str - Given a node and a string, copy the string into the
  * node, first freeing any existing string.  As a special case, if str is
  * NULL, just free the existing string.  Returns the node pointer or NULL on
  * error.
  */
 
-strlist_node *strlist_node_set_str(strlist_node *node, const char *str) {
+fnodelist_node *fnodelist_node_set_str(fnodelist_node *node, const char *str) {
 
     int lenstr = 0;
 
@@ -146,24 +146,24 @@ strlist_node *strlist_node_set_str(strlist_node *node, const char *str) {
 }
 
 /*
- * strlist_append_str - Given a list and string, create and append a new node
+ * fnodelist_append_str - Given a list and string, create and append a new node
  * with the string.  Returns NULL on error and a pointer to the new node on
  * success.
  */
 
-strlist_node *strlist_append_str(strlist *list, const char *str) {
-    strlist_node *tmpnode = NULL;
+fnodelist_node *fnodelist_append_str(fnodelist *list, const char *str) {
+    fnodelist_node *tmpnode = NULL;
     int lenstr = 0;
 
-    tmpnode = strlist_create_node();
+    tmpnode = fnodelist_create_node();
 
     if (NULL == tmpnode)
         return NULL;
 
-    tmpnode = strlist_node_set_str(tmpnode, str);
+    tmpnode = fnodelist_node_set_str(tmpnode, str);
 
     if (NULL == tmpnode)
         return NULL;
 
-    return strlist_append_node(list, tmpnode);
+    return fnodelist_append_node(list, tmpnode);
 }
