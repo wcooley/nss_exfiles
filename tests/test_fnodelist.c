@@ -4,142 +4,142 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "strlist.h"
+#include "fnodelist.h"
 
 const char *teststr = "Now is the time for all good boys to go to bed.\n";
 
-START_TEST (strlist_new_list)
+START_TEST (fnodelist_new_list)
 {
-    strlist *l = NULL;
+    fnodelist *l = NULL;
         
-    l = strlist_create_list();
+    l = fnodelist_create_list();
 
     fail_unless(NULL != l, "List not allocated successfully");
     fail_unless(NULL == l->head, "List's /head/ not initialized correctly");
 
-    strlist_destroy_list(l);
+    fnodelist_destroy_list(l);
 }
 END_TEST
 
-START_TEST (strlist_new_node)
+START_TEST (fnodelist_new_item)
 {
-    strlist_node *n = NULL;
+    fnodelist_item *n = NULL;
 
-    n = strlist_create_node();
+    n = fnodelist_create_item();
 
     fail_unless(NULL != n, "Node not allocated successfully");
     fail_unless(NULL == n->next, "Node's /next/ not initialized correctly");
     fail_unless(NULL == n->string, "Node's /string/ not initialized correctly");
 
-    strlist_destroy_node(n);
+    fnodelist_destroy_item(n);
 }
 END_TEST
 
-START_TEST (strlist_new_node_str)
+START_TEST (fnodelist_new_item_str)
 {
-    strlist_node *n = NULL, *n2 = NULL;
+    fnodelist_item *n = NULL, *n2 = NULL;
 
-    n = strlist_create_node();
+    n = fnodelist_create_item();
     fail_unless(NULL != n, "Node not allocated successfully");
 
-    n2 = strlist_node_set_str(n, teststr);
+    n2 = fnodelist_item_set_str(n, teststr);
 
     fail_unless(NULL != n2, "Error setting string");
     fail_unless(0 == strcmp(n2->string, teststr), 
             "Set and test strings differ");
 
-    n2 = strlist_node_set_str(n, NULL);
+    n2 = fnodelist_item_set_str(n, NULL);
     fail_unless(NULL != n2, "Error setting string to NULL");
     fail_unless(NULL == n->string, "Error setting string to NULL");
 }
 END_TEST
 
-START_TEST (strlist_append_1node)
+START_TEST (fnodelist_append_1node)
 {
-    strlist *l = NULL;
-    strlist_node *n1 = NULL;
-    strlist_node *n2 = NULL;
+    fnodelist *l = NULL;
+    fnodelist_item *n1 = NULL;
+    fnodelist_item *n2 = NULL;
 
-    l = strlist_create_list();
-    n1 = strlist_create_node();
+    l = fnodelist_create_list();
+    n1 = fnodelist_create_item();
 
     fail_unless(NULL != l, "List not allocated successfully");
 
-    n2 = strlist_append_node(l, n1);
+    n2 = fnodelist_append_item(l, n1);
 
     fail_unless(n2 == n1, "Node not appended correctly?!?");
     fail_unless(l->head == n1, "Node #1 not head?!?");
 
-    strlist_destroy_list(l);
+    fnodelist_destroy_list(l);
 }
 END_TEST
 
-START_TEST (strlist_append_2nodes)
+START_TEST (fnodelist_append_2nodes)
 {
-    strlist *l = NULL;
-    strlist_node *nodes[2];
-    strlist_node *tmpnode;
+    fnodelist *l = NULL;
+    fnodelist_item *nodes[2];
+    fnodelist_item *tmpnode;
 
     nodes[0] = NULL;
     nodes[1] = NULL;
 
-    l = strlist_create_list();
+    l = fnodelist_create_list();
 
     fail_unless(NULL != l, "List not allocated successfully");
 
-    nodes[0] = strlist_create_node();
-    nodes[1] = strlist_create_node();
+    nodes[0] = fnodelist_create_item();
+    nodes[1] = fnodelist_create_item();
 
-    tmpnode = strlist_append_node(l, nodes[0]);
+    tmpnode = fnodelist_append_item(l, nodes[0]);
 
     fail_unless(nodes[0] == tmpnode, "Node not appended correctly");
     fail_unless(l->head == nodes[0], "Node #1 not head");
 
-    tmpnode = strlist_append_node(l, nodes[1]);
+    tmpnode = fnodelist_append_item(l, nodes[1]);
 
     fail_unless(tmpnode == nodes[1], "Node not appended correctly");
     fail_unless(nodes[0]->next == nodes[1], "Node #2 not next?!?");
     fail_unless(l->head->next == nodes[1], "Node #2 not head->next?!?");
 
-    strlist_destroy_list(l);
+    fnodelist_destroy_list(l);
 }
 END_TEST
 
-START_TEST (strlist_append_string)
+START_TEST (fnodelist_append_string)
 {
-    strlist *l = NULL;
-    strlist_node *n = NULL;
+    fnodelist *l = NULL;
+    fnodelist_item *n = NULL;
     int lenstr = 0;
 
     lenstr = strlen(teststr) + 1;
-    l = strlist_create_list();
+    l = fnodelist_create_list();
 
     fail_unless(NULL != l, "List not allocated successfully");
 
-    n = strlist_append_str(l, teststr);
+    n = fnodelist_append_str(l, teststr);
 
     fail_unless(NULL != n, "String/node not appended successfully");
     fail_unless(0 == strncmp(teststr, n->string, lenstr), 
             "String/node does not match");
 
-    strlist_destroy_list(l);
+    fnodelist_destroy_list(l);
 }
 END_TEST
 
 
 Suite *
-strlist_suite(void)
+fnodelist_suite(void)
 {
-  Suite *s = suite_create("strlist");
+  Suite *s = suite_create("fnodelist");
   TCase *tc_core = tcase_create("Core");
 
   suite_add_tcase (s, tc_core);
-  tcase_add_test(tc_core, strlist_new_list);
-  tcase_add_test(tc_core, strlist_new_node);
-  tcase_add_test(tc_core, strlist_append_1node);
-  tcase_add_test(tc_core, strlist_append_2nodes);
-  tcase_add_test(tc_core, strlist_append_string);
-  tcase_add_test(tc_core, strlist_new_node_str);
+  tcase_add_test(tc_core, fnodelist_new_list);
+  tcase_add_test(tc_core, fnodelist_new_item);
+  tcase_add_test(tc_core, fnodelist_append_1node);
+  tcase_add_test(tc_core, fnodelist_append_2nodes);
+  tcase_add_test(tc_core, fnodelist_append_string);
+  tcase_add_test(tc_core, fnodelist_new_item_str);
 
   return s;
 }
@@ -148,7 +148,7 @@ int
 main(void)
 {
   int nf;
-  Suite *s = strlist_suite();
+  Suite *s = fnodelist_suite();
   SRunner *sr = srunner_create(s);
   /* srunner_set_log(sr, "test.log"); */
   srunner_run_all(sr, CK_NORMAL);
