@@ -7,6 +7,8 @@ libnss_exfiles_la_SOURCES = exfiles-util.c		\
 			    exfiles-util-grp.h		\
 			    exfiles-util-pwd.c		\
 			    exfiles-util-pwd.h		\
+			    fnode.c			\
+			    fnode.h			\
 			    nss_exfiles_grp.c		\
 			    nss_exfiles_pwd.c 		\
 			    nss_exfiles.h 		\
