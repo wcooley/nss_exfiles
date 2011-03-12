@@ -2,12 +2,13 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
+AC_INIT(nss_exfiles, 0.1, nss_exfiles-bugs@nakedape.cc)
 AC_CONFIG_AUX_DIR(config)
-AM_INIT_AUTOMAKE(nss_exfiles, 1.0)
+AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_SRCDIR([src/])
 AC_CONFIG_HEADER([config.h])
 
+AC_SUBST(AM_CFLAGS, "-Wall")
 AC_ARG_ENABLE(trace, 
               AS_HELP_STRING([--enable-trace],
                              [enable tracing (default is NO) ])
