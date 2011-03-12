@@ -13,7 +13,9 @@ test_fnodelist_SOURCES 	= test_fnodelist.c			\
 			  ../src/fnode.c			\
 			  ../src/fnode.h			\
 			  ../src/fnodelist.c			\
-			  ../src/fnodelist.h
+			  ../src/fnodelist.h			\
+			  ../src/exfiles-util.c			\
+			  ../src/exfiles-util.h
 
 test_strsplit_SOURCES	= test_strsplit.c 			\
 			  ../src/strsplit.c 			\
@@ -37,7 +39,13 @@ test_exfiles_util_open_SOURCES = test_exfiles_util_open.c 	\
 			   ../src/exfiles-util.c		\
 			   ../src/exfiles-util.h
 
-test_parser_SOURCES 	= test_parser.c
+test_parser_SOURCES 	= test_parser.c				\
+			  ../src/exfiles-util.c			\
+			  ../src/exfiles-util.h			\
+			  ../src/fnode.c			\
+			  ../src/fnode.h			\
+			  ../src/fnodelist.c			\
+			  ../src/fnodelist.h
 
 test_parser_LDADD = @CHECK_LIBS@ ../src/libexfiles-conf-parser.la
 

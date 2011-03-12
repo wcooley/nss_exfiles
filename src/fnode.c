@@ -1,4 +1,5 @@
 
+#include <limits.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
@@ -13,10 +14,10 @@
  * fnode_new - Create a new, empty node.  Returns a pointer to a
  * fnode.
  */
-fnode *fnode_new(void) {
-    fnode *n;
+struct fnode *fnode_new(void) {
+    struct fnode *n;
 
-    n = calloc(1, sizeof(fnode));
+    n = calloc(1, sizeof(struct fnode));
     if (NULL == n) return NULL;
 
     return n;
@@ -25,7 +26,7 @@ fnode *fnode_new(void) {
 /*
  * fnode_destroy - Destroy an fnode, taking care to clean-up if necessary.
  */
-void fnode_destroy(fnode *node) {
+void fnode_destroy(struct fnode *node) {
 
     /* A node that isn't */
     if (NULL == node)
@@ -56,11 +57,11 @@ void fnode_destroy(fnode *node) {
  * @return Pointer to node or NULL on error.
  */
 
-fnode *fnode_set_path(fnode *node, const char *path) {
+struct fnode *fnode_set_path(struct fnode *node, const char *path) {
 
     int lenstr = 0;
 
-    if (path > PATH_MAX)
+    if (strlen(path) > PATH_MAX)
         return NULL;
 
     if (NULL == node)
@@ -102,19 +103,19 @@ fnode *fnode_set_path(fnode *node, const char *path) {
  * & compare inode too?
  */
 
-FILE *fnode_fopen(fnode *node) {
+FILE *fnode_fopen(struct fnode *node) {
 
-    struct stat pathstat;
+    struct stat *pathstat;
 
     if (NULL == node->path) return NULL;
 
     if (NULL != node->handle) {     /* handle is already open */
-        if (stat(node->path, &pathstat) != 0)
+        if (stat(node->path, pathstat) != 0)
             return NULL;
 
         /* If open file has as late mtime as path, then just rewind the
          * handle and return it */
-        if (pathstat->mtime <= node->mtime) {
+        if (pathstat->st_mtime <= node->mtime) {
             rewind(node->handle);
             return node->handle;
         }

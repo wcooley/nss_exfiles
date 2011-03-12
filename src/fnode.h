@@ -24,8 +24,8 @@ struct fnode {
 
 struct fnode *fnode_new(void);
 void fnode_destroy(struct fnode *);
-struct fnode *fnode_set_path(fnode *, const char *);
-FILE *fnode_fopen(fnode *);
+struct fnode *fnode_set_path(struct fnode *, const char *);
+FILE *fnode_fopen(struct fnode *);
 
 #define close_handle(node)          \
     if (NULL != (node)->handle) {   \

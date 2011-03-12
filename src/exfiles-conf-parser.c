@@ -1,7 +1,7 @@
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
-#include "strlist.h"
+#include "fnodelist.h"
 #include "exfiles-conf-parser.h"
 
 #define XSTR(s) STR(s)
@@ -21,12 +21,12 @@ exfiles_parse_config(FILE *cfgfile, struct exfiles_conf *conf) {
 
         if (fscanf(cfgfile, " passwd: %" XSTR(PATH_MAX) "s", file) == 1) {
             /*printf("type = passwd, file = %s\n", file);*/
-            strlist_append_str(conf->passwd, file);
+            fnodelist_append_path(conf->passwd, file);
         }
 
         else if (fscanf(cfgfile, " group: %" XSTR(PATH_MAX) "s", file) == 1) {
             /*printf("type = group, file = %s\n", file);*/
-            strlist_append_str(conf->group, file);
+            fnodelist_append_path(conf->group, file);
         }
 
         else {
@@ -43,13 +43,13 @@ exfiles_parse_config(FILE *cfgfile, struct exfiles_conf *conf) {
 int
 exfiles_init_config(struct exfiles_conf *conf) {
 
-    conf->passwd = strlist_create_list();
+    conf->passwd = fnodelist_new_list();
     if (conf->passwd == NULL)
         return -1;
 
-    conf->group = strlist_create_list();
+    conf->group = fnodelist_new_list();
     if (conf->group == NULL) {
-        strlist_destroy_list(conf->passwd);
+        fnodelist_destroy_list(conf->passwd);
         return -1;
     }
 
@@ -58,13 +58,13 @@ exfiles_init_config(struct exfiles_conf *conf) {
 
 void
 exfiles_print_config(struct exfiles_conf *conf) {
-    strlist_node *listnext;
+    struct fnodelist_item *listnext;
 
     listnext = conf->passwd->head;
 
     printf("passwd:");
     while (listnext != NULL) {
-        printf(" '%s'", listnext->string);
+        printf(" '%s'", listnext->node->path);
         listnext = listnext->next;
     }
     printf("\n");
@@ -73,7 +73,7 @@ exfiles_print_config(struct exfiles_conf *conf) {
 
     printf("group:");
     while (listnext != NULL) {
-        printf(" '%s'", listnext->string);
+        printf(" '%s'", listnext->node->path);
         listnext = listnext->next;
     }
     printf("\n");

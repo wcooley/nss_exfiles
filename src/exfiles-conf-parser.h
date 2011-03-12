@@ -1,11 +1,11 @@
 #ifndef EXFILES_CONF_PARSER_H
 #define EXFILES_CONF_PARSER_H
 
-#include "strlist.h"
+#include "fnodelist.h"
 
 struct exfiles_conf {
-    strlist *passwd;
-    strlist *group;
+    struct fnodelist *passwd;
+    struct fnodelist *group;
 };
 
 int exfiles_parse_config(FILE *cfgfile, struct exfiles_conf *c);

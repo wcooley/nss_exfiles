@@ -43,15 +43,15 @@ END_TEST
 
 struct exfiles_conf *reference_conf;
 
-#define addpasswd(PFILE) (strlist_append_str(reference_conf->passwd, PFILE))
-#define addgroup(GFILE)  (strlist_append_str(reference_conf->group, GFILE))
+#define addpasswd(PFILE) (fnodelist_append_path(reference_conf->passwd, PFILE))
+#define addgroup(GFILE)  (fnodelist_append_path(reference_conf->group, GFILE))
 
 void setup_reference_conf(void) {
 
     reference_conf = calloc(1, sizeof(struct exfiles_conf));
 
-    reference_conf->passwd = strlist_create_list();
-    reference_conf->group  = strlist_create_list();
+    reference_conf->passwd = fnodelist_new_list();
+    reference_conf->group  = fnodelist_new_list();
 
     addpasswd("/var/foo-pass");
     addpasswd("/etc/bar-pass");
@@ -69,8 +69,8 @@ void teardown_reference_conf(void) {
     /* FIXME */
 }
 
-void compare_lists(const char *type, strlist_node *strptr,
-                    strlist_node *refstrptr) {
+void compare_lists(const char *type, struct fnodelist_item *item,
+                    struct fnodelist_item *item_ref) {
 
     char parsed_ran_out[64], ref_ran_out[64];
 
@@ -80,12 +80,12 @@ void compare_lists(const char *type, strlist_node *strptr,
     sprintf(ref_ran_out,
             "Reference %s data ran out before parsed", type );
 
-    while( strptr != NULL || refstrptr != NULL ) {
-        fail_if(strptr == NULL, parsed_ran_out);
-        fail_if(refstrptr == NULL, ref_ran_out);
-        ck_assert_str_eq( strptr->string, refstrptr->string );
-        strptr = strptr->next;
-        refstrptr = refstrptr->next;
+    while( item != NULL || item_ref != NULL ) {
+        fail_if(item == NULL, parsed_ran_out);
+        fail_if(item_ref == NULL, ref_ran_out);
+        ck_assert_str_eq( item->node->path, item_ref->node->path );
+        item = item->next;
+        item_ref = item_ref->next;
     }
 }
 
@@ -93,7 +93,7 @@ START_TEST(test_reference_conf_passwd)
 {
     FILE *cfgfile;
     struct exfiles_conf conf;
-    strlist_node *strptr, *refstrptr;
+    struct fnodelist_item *item, *item_ref;
 
     cfgfile = fopen(REFERENCE_CONF, "r");
 
@@ -103,10 +103,10 @@ START_TEST(test_reference_conf_passwd)
     fail_unless( exfiles_parse_config(cfgfile, &conf) == 0,
                 "error parsing config file");
 
-    strptr = (conf.passwd)->head;
-    refstrptr = (reference_conf->passwd)->head;
+    item = (conf.passwd)->head;
+    item_ref = (reference_conf->passwd)->head;
 
-    compare_lists("passwd", strptr, refstrptr);
+    compare_lists("passwd", item, item_ref);
 }
 END_TEST
 
@@ -114,7 +114,7 @@ START_TEST(test_reference_conf_group)
 {
     FILE *cfgfile;
     struct exfiles_conf conf;
-    strlist_node *strptr, *refstrptr;
+    struct fnodelist_item *item, *item_ref;
 
     cfgfile = fopen(REFERENCE_CONF, "r");
 
@@ -124,10 +124,10 @@ START_TEST(test_reference_conf_group)
     fail_unless( exfiles_parse_config(cfgfile, &conf) == 0,
                 "error parsing config file");
 
-    strptr = (conf.group)->head;
-    refstrptr = (reference_conf->group)->head;
+    item = (conf.group)->head;
+    item_ref = (reference_conf->group)->head;
 
-    compare_lists("group", strptr, refstrptr);
+    compare_lists("group", item, item_ref);
 }
 END_TEST
 

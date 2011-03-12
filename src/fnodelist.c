@@ -18,7 +18,6 @@
  */
 struct fnodelist *fnodelist_new_list(void) {
     struct fnodelist *list;
-    int ret;
 
     list = calloc(1, sizeof(struct fnodelist));
     if (NULL == list) return NULL;
@@ -68,7 +67,16 @@ void fnodelist_destroy_list(struct fnodelist *list) {
 }
 
 /**
- * fnodelist_append - Appends an item to the end of a list.
+ * fnodelist_destroy_item - Destroys an fnodelist_item.
+ * @param item fnodelist_item to be destroyed
+ */
+void fnodelist_destroy_item(struct fnodelist_item *item) {
+    if (NULL != item)
+        fnode_destroy(item->node);
+}
+
+/**
+ * fnodelist_append_item - Appends an item to the end of a list.
  *
  * @param list List to append to.
  * @param new_item New item to be appended. If NULL, will create a new item.
@@ -77,7 +85,7 @@ void fnodelist_destroy_list(struct fnodelist *list) {
  * a pointer to the appended item.
  *
  */
-struct fnodelist_item *fnodelist_append(struct fnodelist *list,
+struct fnodelist_item *fnodelist_append_item(struct fnodelist *list,
                                         struct fnodelist_item *new_item) {
 
     struct fnodelist_item *curr = NULL;
@@ -119,12 +127,13 @@ struct fnodelist_item *fnodelist_append(struct fnodelist *list,
  * @return Pointer to appended fnode or NULL on error.
  */
 
-struct fnode *fnodelist_append_fnode(fnodelist *list, fnode *node) {
+struct fnodelist_item *fnodelist_append_fnode(
+            struct fnodelist *list, struct fnode *node) {
     struct fnodelist_item *new_item = NULL;
 
     if (NULL == list) return NULL;
 
-    new_item = fnodelist_append(list, NULL);
+    new_item = fnodelist_append_item(list, NULL);
 
     if (NULL == new_item)
         return NULL;
@@ -139,7 +148,7 @@ struct fnode *fnodelist_append_fnode(fnodelist *list, fnode *node) {
 
     new_item->node = node;
 
-    return new_item->node;
+    return new_item;
 }
 
 /**
@@ -151,13 +160,15 @@ struct fnode *fnodelist_append_fnode(fnodelist *list, fnode *node) {
  * @return Pointer to appended fnode or NULL on error.
  */
 
-struct fnode *fnodelist_append_path(fnodelist *list, char *path) {
+struct fnodelist_item *fnodelist_append_path(struct fnodelist *list, const char *path) {
 
-    struct fnode *new_node = NULL;
+    struct fnodelist_item *new_item = NULL;
 
-    new_node = fnodelist_append_fnode(list, NULL);
-    if (NULL == new_node) return NULL;
+    new_item = fnodelist_append_fnode(list, NULL);
+    if (NULL == new_item || NULL == new_item->node) return NULL;
 
-    return fnode_set_path(new_node, path);
+    fnode_set_path(new_item->node, path);
+
+    return new_item;
 
 }

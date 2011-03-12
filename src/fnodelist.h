@@ -19,17 +19,19 @@ struct fnodelist_item {
 };
 
 struct fnodelist {
-    fnodelist_item *head;
+    struct fnodelist_item *head;
 };
 
-fnodelist      *fnodelist_new_list(void);
-fnodelist_item *fnodelist_new_item(void);
+struct fnodelist      *fnodelist_new_list(void);
+struct fnodelist_item *fnodelist_new_item(void);
 
-void fnodelist_destroy_list(fnodelist *);
+void fnodelist_destroy_list(struct fnodelist *);
+void fnodelist_destroy_item(struct fnodelist_item *);
 
-struct fnodelist_item *fnodelist_append(fnodelist *, fnodelist_item *);
-struct fnode *fnodelist_append_fnode(fnodelist *, fnode *);
-struct fnode *fnodelist_append_path(fnodelist *, char *);
+
+struct fnodelist_item *fnodelist_append_item(struct fnodelist *, struct fnodelist_item *);
+struct fnodelist_item *fnodelist_append_fnode(struct fnodelist *, struct fnode *);
+struct fnodelist_item *fnodelist_append_path(struct fnodelist *, const char *);
 
 
 #endif /* FNODELIST_H */
