@@ -6,6 +6,7 @@
 *.la
 *.lo
 *.s
+*/Makefile
 .deps
 .libs
 Makefile
@@ -21,11 +22,8 @@ config/ltmain.sh
 config/ylwrap
 configure
 libtool
-src/conf_lexer.c
-src/conf_parser.c
-src/conf_parser.h
 stamp-h1
-tests/Makefile
+tags
 
 # Test binaries
 tests/test_exfiles_grp
@@ -33,6 +31,6 @@ tests/test_exfiles_pwd
 tests/test_exfiles_util_open
 tests/test_exfiles_util_pwd
 tests/test_strsplit
-tests/test_strlist
+tests/test_fnodelist
 tests/test_parser
 src/exfiles-conf-parser
