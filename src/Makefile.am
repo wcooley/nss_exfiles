@@ -22,8 +22,6 @@ libnss_exfiles_la_LIBADD = libexfiles-conf-parser.la
 libnss_exfiles_la_LDFLAGS = -version-info 2:0:0 \
 			    -export-symbols-regex '^_nss_exfiles_'
 
-libstrlist_la_SOURCES = strlist.c strlist.h
-
 libexfiles_conf_parser_la_SOURCES = exfiles-conf-parser.c \
 				    exfiles-conf-parser.h
 

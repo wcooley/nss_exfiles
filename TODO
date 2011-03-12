@@ -4,6 +4,7 @@ Short term
 ** Design & implement structures & routines
 *** Open main conf, parse & build
 *** Iterate through conf struct and open files?
+*** Replace strlist with fnodelist
 **** Or open db files only when/if necessary?
 
 * Conf parser:
