@@ -3,7 +3,7 @@
 
 /* Password functions */
 
-int exfiles_passwd_alloc_from_pw_entry(struct passwd *, char **);
+int exfiles_alloc_passwd_from_pw_entry(struct passwd *, char **);
 
 int exfiles_copy_passwd_from_pw_entry(struct passwd *, char **);
 

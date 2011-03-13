@@ -60,7 +60,6 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
     char **pw_entry = NULL;     /* array of strings for each passwd field */
     char pwline[MAX_CANON];     /* buffer for line from password file */
     int llength = 0;            /* actual string length of pwline */
-    int scan_len;               /* FIXME Not used?  Remove */
 
     exfiles_trace_msg("Entering _nss_exfiles_getpwent_r");
 

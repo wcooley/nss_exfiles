@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 #include "exfiles-util.h"
+#include "exfiles-util-pwd.h"
 
 /*
  * struct passwd array of entries from ../test-data/passwd

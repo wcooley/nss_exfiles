@@ -32,7 +32,7 @@ strcnt(const char *str, const char char_to_cnt) {
 char **
 strsplit(const char *splitstr, const char splitchar) {
     int splitcnt = 0;
-    int i, j, slen;
+    int i, slen;
     char **splitdst;
     const char *begin = splitstr;
     const char *end = splitstr;

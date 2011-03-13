@@ -2,6 +2,7 @@
 #include <nss.h>
 #include <grp.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "strsplit.h"
@@ -52,6 +53,10 @@ exfiles_copy_group_from_gr_entry(struct group *grbuf, char **gr_entry)
 
     /* Split the members by comma */
     grbuf->gr_mem = strsplit(gr_entry[3], ',');
+
+    fprintf(stderr, "group feature not complete in %s:%d\n", __FILE__, __LINE__);
+    abort();
+    return 0;
 }
 
 /*
