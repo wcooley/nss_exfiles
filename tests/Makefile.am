@@ -1,4 +1,5 @@
 noinst_PROGRAMS 	= test_fnodelist 			\
+			  test_fnode				\
 			  test_strsplit 			\
 			  test_exfiles_grp			\
 			  test_exfiles_pwd			\
@@ -8,6 +9,12 @@ noinst_PROGRAMS 	= test_fnodelist 			\
 
 LDADD			= @CHECK_LIBS@ -ldl
 AM_CPPFLAGS		= @CHECK_CFLAGS@ -I$(top_srcdir)/src
+
+test_fnode_SOURCES	= test_fnode.c				\
+			  ../src/fnode.c			\
+			  ../src/fnode.h			\
+			  ../src/exfiles-util.c			\
+			  ../src/exfiles-util.h
 
 test_fnodelist_SOURCES 	= test_fnodelist.c			\
 			  ../src/fnode.c			\
@@ -50,6 +57,7 @@ test_parser_SOURCES 	= test_parser.c				\
 test_parser_LDADD = @CHECK_LIBS@ ../src/libexfiles-conf-parser.la
 
 TESTS 			= test_fnodelist 			\
+			  test_fnode				\
 			  test_strsplit 			\
 			  test_exfiles_grp			\
 			  test_exfiles_pwd			\
