@@ -1,6 +1,7 @@
 
 #include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -105,17 +106,17 @@ struct fnode *fnode_set_path(struct fnode *node, const char *path) {
 
 FILE *fnode_fopen(struct fnode *node) {
 
-    struct stat *pathstat;
+    struct stat pathstat;
 
     if (NULL == node->path) return NULL;
 
     if (NULL != node->handle) {     /* handle is already open */
-        if (stat(node->path, pathstat) != 0)
+        if (stat(node->path, &pathstat) != 0)
             return NULL;
 
         /* If open file has as late mtime as path, then just rewind the
          * handle and return it */
-        if (pathstat->st_mtime <= node->mtime) {
+        if (pathstat.st_mtime <= node->mtime) {
             rewind(node->handle);
             return node->handle;
         }
