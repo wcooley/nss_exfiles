@@ -33,7 +33,7 @@ struct fnodelist *fnodelist_new_list(void) {
 struct fnodelist_item *fnodelist_new_item(void) {
     struct fnodelist_item *n;
 
-    n = malloc(sizeof(struct fnodelist_item));
+    n = calloc(1, sizeof(struct fnodelist_item));
     if (NULL == n) return NULL;
 
     return n;
