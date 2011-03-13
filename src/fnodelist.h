@@ -29,7 +29,8 @@ void fnodelist_destroy_list(struct fnodelist *);
 void fnodelist_destroy_item(struct fnodelist_item *);
 
 
-struct fnodelist_item *fnodelist_append_item(struct fnodelist *, struct fnodelist_item *);
+struct fnodelist_item *fnodelist_append_item(struct fnodelist *,
+                                             struct fnodelist_item *);
 struct fnodelist_item *fnodelist_append_fnode(struct fnodelist *, struct fnode *);
 struct fnodelist_item *fnodelist_append_path(struct fnodelist *, const char *);
 
