@@ -1,3 +1,5 @@
+bin_PROGRAMS		= exfiles-conf
+
 lib_LTLIBRARIES 	= libnss_exfiles.la
 noinst_LTLIBRARIES	= libexfiles-conf-parser.la
 
@@ -24,4 +26,16 @@ libnss_exfiles_la_LDFLAGS = -version-info 2:0:0 \
 
 libexfiles_conf_parser_la_SOURCES = exfiles-conf-parser.c \
 				    exfiles-conf-parser.h
+
+exfiles_conf_CFLAGS = $(AM_CFLAGS)
+
+exfiles_conf_SOURCES = exfiles-conf.c			\
+			fnode.c				\
+			fnode.h				\
+			fnodelist.c			\
+			fnodelist.h			\
+			exfiles-util.c			\
+			exfiles-util.h			\
+			exfiles-conf-parser.c		\
+			exfiles-conf-parser.h
 
