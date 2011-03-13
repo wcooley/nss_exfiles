@@ -135,8 +135,8 @@ fnodelist_suite(void)
   tcase_add_test(tc_core, test_fnodelist_new_item);
   tcase_add_test(tc_core, test_fnodelist_append_1item);
   tcase_add_test(tc_core, test_fnodelist_append_2items);
+  tcase_add_test(tc_core, test_fnodelist_append_fnode);
   tcase_add_test(tc_core, test_fnodelist_append_path);
-/*  tcase_add_test(tc_core, test_fnodelist_new_item_str); */
 
   return s;
 }
