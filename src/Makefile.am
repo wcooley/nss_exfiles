@@ -20,7 +20,7 @@ libnss_exfiles_la_SOURCES = exfiles-util.c		\
 libnss_exfiles_la_LIBADD = libexfiles-conf-parser.la
 
 libnss_exfiles_la_LDFLAGS = -version-info 2:0:0 \
-			    -export-symbols-regex '^_nss_exfiles_'
+			    -export-symbols-regex '^(_nss_exfiles_|_set_passwd_file)'
 
 libexfiles_conf_parser_la_SOURCES = exfiles-conf-parser.c \
 				    exfiles-conf-parser.h
