@@ -15,6 +15,7 @@ libnss_exfiles_la_SOURCES = exfiles-util.c		\
 			    fnodelist.h			\
 			    nss_exfiles_grp.c		\
 			    nss_exfiles_pwd.c 		\
+			    nss_exfiles.c 		\
 			    nss_exfiles.h 		\
 			    strsplit.c 			\
 			    strsplit.h
