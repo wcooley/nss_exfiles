@@ -1,0 +1,2 @@
+auser:x:10100:10100:Another User:/home/auser:/sbin/nologin
+buser:x:10101:10101:ABuser:/home/buser:/sbin/nologin
