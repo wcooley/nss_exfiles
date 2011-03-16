@@ -6,16 +6,20 @@
 #endif /* _GNU_SOURCE */
 
 
-/* #ifndef EXFILES_BASE */
-#ifdef DEV_MODE
 #ifndef EXFILES_BASE
-#define EXFILES_BASE "/net/rheingold/home/wcooley/nakedape/pub/small-projects/nss_exfiles/test-data/"
-#endif
-#else
-#define EXFILES_BASE "/var/lib/exfiles"
+#define EXFILES_BASE "/var/lib/exfiles/"
 #endif /* EXFILES_BASE */
+
+#ifndef EXFILES_CONF
+#define EXFILES_CONF "/etc/exfiles.conf"
+#endif /* EXFILES_CONF */
 
 #define EXFILE_FILE(file) static char *ex_ ## file =  EXFILES_BASE "/" #file;
 
+#include "exfiles-conf-parser.h"
+
+extern struct exfiles_conf nss_exfiles_conf;
+
+int nss_exfiles_setup(void);
 
 #endif /* NSS_EXFILES_H */

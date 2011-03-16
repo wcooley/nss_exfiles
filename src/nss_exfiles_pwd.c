@@ -11,17 +11,10 @@
 #include "nss_exfiles.h"
 #include "exfiles-util.h"
 #include "exfiles-util-pwd.h"
+#include "fnode.h"
+#include "fnodelist.h"
 #include "strsplit.h"
 
-EXFILE_FILE(passwd)
-
-static FILE *ex_passwd_f;
-
-/* Set the filename to read from; mainly useful in testing */
-void
-_set_passwd_file(char *file) {
-   ex_passwd = file;
-}
 
 /*
  * Open the passwd file for reading
@@ -30,7 +23,7 @@ enum nss_status
 _nss_exfiles_setpwent(void) {
 
     exfiles_trace_msg("Entering _nss_exfiles_setpwent");
-    return exfiles_open_file(ex_passwd, &ex_passwd_f);
+    return nss_exfiles_setup();
 
 }
 
@@ -40,14 +33,7 @@ _nss_exfiles_setpwent(void) {
 enum nss_status
 _nss_exfiles_endpwent(void) {
 
-    enum nss_status status = NSS_STATUS_SUCCESS;
-
-    if (NULL != ex_passwd_f) {
-        fclose(ex_passwd_f);
-        ex_passwd_f = NULL;
-    }
-
-    return status;
+    return NSS_STATUS_SUCCESS;
 }
 
 
@@ -68,19 +54,14 @@ _nss_exfiles_getpwent_r(struct passwd *pwbuf,
         return NSS_STATUS_NOTFOUND;
     }
 
-    if (NULL == ex_passwd_f) {
-        fprintf(stderr, "ex_passwd_f is NULL\n");
-        return NSS_STATUS_NOTFOUND;
-    }
-
     /* Read a line from the passwd file */
-    if (NULL == fgets(pwline, MAX_CANON, ex_passwd_f)) {
+    if (NULL == fnodelist_fgets(pwline, MAX_CANON, nss_exfiles_conf.passwd)) {
         return NSS_STATUS_NOTFOUND;
     }
 
     llength = strlen(pwline);
 
-    pwline[llength-1] = '\0';   /* Ensure termination */
+    pwline[llength-1] = '\0'; /* Ensure termination */
 
     exfiles_trace_msg("Splitting pwline");
     pw_entry = strsplit(pwline, ':');

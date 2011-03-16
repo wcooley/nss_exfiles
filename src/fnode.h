@@ -33,4 +33,7 @@ FILE *fnode_fopen(struct fnode *);
         (node)->handle = NULL;      \
     }
 
+#define is_valid_handle(handle)     \
+    (((handle) != NULL) && (-1 != fileno(handle)))
+
 #endif /* FNODE_H */

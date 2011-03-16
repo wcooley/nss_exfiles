@@ -4,17 +4,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "exfiles-util.h"
 #include "fnodelist.h"
 
 const char *teststr = "Now is the time for all good boys to go to bed.\n";
+
+#define append_path_test(item, fnodelist, path)   \
+    (item) = fnodelist_append_path((fnodelist), (path)); \
+    fail_unless(NULL != (item), "Error appending path '" XSTR(path) "'");
+
+#define fnodelist_new(list)         \
+    (list) = fnodelist_new_list();  \
+    fail_unless(NULL != (list), "Error allocating new list");
 
 START_TEST (test_fnodelist_new_list)
 {
     struct fnodelist *l = NULL;
         
-    l = fnodelist_new_list();
+    fnodelist_new(l);
 
-    fail_unless(NULL != l, "List not allocated successfully");
     fail_unless(NULL == l->head, "List's /head/ not initialized correctly");
 
     fnodelist_destroy_list(l);
@@ -40,10 +48,9 @@ START_TEST (test_fnodelist_append_1item)
     struct fnodelist *l = NULL;
     struct fnodelist_item *item1 = NULL, *item2 = NULL;
 
-    l = fnodelist_new_list();
-    item1 = fnodelist_new_item();
+    fnodelist_new(l);
 
-    fail_unless(NULL != l, "List not allocated successfully");
+    item1 = fnodelist_new_item();
 
     item2 = fnodelist_append_item(l, item1);
 
@@ -63,9 +70,7 @@ START_TEST (test_fnodelist_append_2items)
     items[0] = NULL;
     items[1] = NULL;
 
-    l = fnodelist_new_list();
-
-    fail_unless(NULL != l, "List not allocated successfully");
+    fnodelist_new(l);
 
     items[0] = fnodelist_new_item();
     items[1] = fnodelist_new_item();
@@ -91,8 +96,7 @@ START_TEST (test_fnodelist_append_fnode)
     struct fnodelist_item *item = NULL;
     struct fnode *fn = NULL;
 
-    list = fnodelist_new_list();
-    fail_unless(NULL != list, "fnodelist not allocated successfully");
+    fnodelist_new(list);
 
     fn = fnode_new();
     fail_unless(NULL != fn, "fnode not allocated successfully");
@@ -109,9 +113,8 @@ START_TEST (test_fnodelist_append_path)
     int lenstr = 0;
 
     lenstr = strlen(teststr) + 1;
-    l = fnodelist_new_list();
 
-    fail_unless(NULL != l, "List not allocated successfully");
+    fnodelist_new(l);
 
     item = fnodelist_append_path(l, teststr);
 
@@ -123,6 +126,98 @@ START_TEST (test_fnodelist_append_path)
 }
 END_TEST
 
+START_TEST(test_fnodelist_next_item)
+{
+    struct fnodelist *list = NULL;
+    struct fnodelist_item *item[2], *itemt = NULL;
+
+    fnodelist_new(list);
+
+    append_path_test(item[0], list, "../test-data/passwd");
+    append_path_test(item[1], list, "../test-data/group");
+
+    itemt = fnodelist_next_item(list);
+
+    fail_unless(itemt == item[0],
+            "first 'next' item different from reference first item");
+
+    itemt = fnodelist_next_item(list);
+
+    fail_unless(itemt == item[1],
+            "second 'next' item different from reference second item");
+
+    itemt = fnodelist_next_item(list);
+
+    fail_unless(itemt == NULL,
+            "final next item pointer is not NULL");
+
+    fnodelist_destroy_list(list);
+}
+END_TEST
+
+START_TEST(test_fnodelist_next_fnode)
+{
+    struct fnodelist *list = NULL;
+    struct fnode *ftmp = NULL;
+    char *test_paths[] = {
+        "../test-data/passwd",
+        "../test-data/group"
+    };
+
+    fnodelist_new(list);
+
+    fnodelist_append_path(list, test_paths[0]);
+    fnodelist_append_path(list, test_paths[1]);
+
+    ftmp = fnodelist_next_fnode(list);
+    fail_unless(ftmp != NULL, "first 'next' fnode is NULL");
+    fail_unless(0 == strncmp(test_paths[0], ftmp->path, strlen(test_paths[0])),
+            "Path from first fnode not same as first test path");
+
+    ftmp = fnodelist_next_fnode(list);
+    fail_unless(ftmp != NULL, "second 'next' fnode is NULL");
+    fail_unless(0 == strncmp(test_paths[1], ftmp->path, strlen(test_paths[1])),
+            "Path from second fnode not same as first test path");
+
+    ftmp = fnodelist_next_fnode(list);
+    fail_unless(ftmp == NULL, "last 'next' fnode should be NULL");
+
+    fnodelist_destroy_list(list);
+}
+END_TEST
+
+START_TEST(test_fnodelist_fgets)
+{
+    struct fnodelist *list = NULL;
+    int i = 0;
+    char *test_paths[] = {
+        "../test-data/passwd",
+        "../test-data/group"
+    };
+    char *test_lines[] = {
+        "wcooley:asdfsdf:1:2:Me:/home/wcooley:/usr/bin/ksh/or/another/really/long/path\n",
+        "wc00ley:x:666:666:Wil Cooley:/home/wc00ley:/bin/bash\n",
+        "wc01ley::667:667:Wil Cooley 1:/home/wc01ley:/bin/bash1\n",
+        "wcooley:x:2:\n",
+        "wc00ley:x:666:\n",
+        "wc01ley:x:667:wc00ley\n",
+    };
+    char buf[1024];
+
+    fnodelist_new(list);
+
+    fnodelist_append_path(list, test_paths[0]);
+    fnodelist_append_path(list, test_paths[1]);
+
+    while(NULL != fnodelist_fgets(buf, 1024, list)) {
+        fail_unless(0 == strcmp(test_lines[i], buf), 
+                "Assertion failed: '%s' != '%s'", test_lines[i], buf);
+        i++;
+    }
+
+    fnodelist_destroy_list(list);
+}
+END_TEST
 
 Suite *
 fnodelist_suite(void)
@@ -137,6 +232,9 @@ fnodelist_suite(void)
   tcase_add_test(tc_core, test_fnodelist_append_2items);
   tcase_add_test(tc_core, test_fnodelist_append_fnode);
   tcase_add_test(tc_core, test_fnodelist_append_path);
+  tcase_add_test(tc_core, test_fnodelist_next_item);
+  tcase_add_test(tc_core, test_fnodelist_next_fnode);
+  tcase_add_test(tc_core, test_fnodelist_fgets);
 
   return s;
 }

@@ -19,15 +19,20 @@
 
 START_TEST (test_parser_null)
 {
-    FILE *cfgfile;
-    struct exfiles_conf conf;
-
-    cfgfile = fopen("/dev/null", "r");
+    struct exfiles_conf conf = {
+        .conf_file = {
+            .path = "/dev/null",
+            .handle = NULL,
+            .mtime = (time_t)0,
+        },
+        .passwd = NULL,
+        .group = NULL,
+    };
 
     fail_unless( exfiles_init_config(&conf) == 0,
                 "error initializing exfiles_conf struct");
 
-    fail_unless( exfiles_parse_config(cfgfile, &conf) == 0,
+    fail_unless( exfiles_parse_config(&conf) == 0,
                 "error parsing config file");
 
     fail_unless( (conf.passwd)->head == NULL,
@@ -91,16 +96,22 @@ void compare_lists(const char *type, struct fnodelist_item *item,
 
 START_TEST(test_reference_conf_passwd)
 {
-    FILE *cfgfile;
-    struct exfiles_conf conf;
-    struct fnodelist_item *item, *item_ref;
+    struct exfiles_conf conf = {
+        .conf_file = {
+            .path = REFERENCE_CONF,
+            .handle = NULL,
+            .mtime = (time_t)0,
+        },
+        .passwd = NULL,
+        .group = NULL,
+    };
 
-    cfgfile = fopen(REFERENCE_CONF, "r");
+    struct fnodelist_item *item, *item_ref;
 
     fail_unless( exfiles_init_config(&conf) == 0,
                 "error initializing exfiles_conf struct");
 
-    fail_unless( exfiles_parse_config(cfgfile, &conf) == 0,
+    fail_unless( exfiles_parse_config(&conf) == 0,
                 "error parsing config file");
 
     item = (conf.passwd)->head;
@@ -112,16 +123,22 @@ END_TEST
 
 START_TEST(test_reference_conf_group)
 {
-    FILE *cfgfile;
-    struct exfiles_conf conf;
-    struct fnodelist_item *item, *item_ref;
+    struct exfiles_conf conf = {
+        .conf_file = {
+            .path = REFERENCE_CONF,
+            .handle = NULL,
+            .mtime = (time_t)0,
+        },
+        .passwd = NULL,
+        .group = NULL,
+    };
 
-    cfgfile = fopen(REFERENCE_CONF, "r");
+    struct fnodelist_item *item, *item_ref;
 
     fail_unless( exfiles_init_config(&conf) == 0,
                 "error initializing exfiles_conf struct");
 
-    fail_unless( exfiles_parse_config(cfgfile, &conf) == 0,
+    fail_unless( exfiles_parse_config(&conf) == 0,
                 "error parsing config file");
 
     item = (conf.group)->head;

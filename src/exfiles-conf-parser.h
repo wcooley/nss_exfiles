@@ -4,11 +4,12 @@
 #include "fnodelist.h"
 
 struct exfiles_conf {
+    struct fnode conf_file;
     struct fnodelist *passwd;
     struct fnodelist *group;
 };
 
-int exfiles_parse_config(FILE *cfgfile, struct exfiles_conf *c);
+int exfiles_parse_config(struct exfiles_conf *c);
 
 int exfiles_init_config(struct exfiles_conf *c);
 

@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "exfiles-util.h"
+#include "nss_exfiles.h"
 #include "config.h"
 
 /*
@@ -85,6 +86,22 @@ exfiles_set_close_on_exec(FILE *stream)
 
 }
 
+char *
+qualify_file_path(char *inpath, char *outpath)
+{
+
+    if (inpath[0] == '/')  /* Starts with slash, so must be already qualified */
+        return inpath;
+
+                                                /* +1 for "/", +1 for '\0' */
+    outpath = calloc(1, strlen(inpath) + strlen(EXFILES_BASE) + 2);
+
+    strncpy(outpath, EXFILES_BASE, strlen(EXFILES_BASE+1));
+    strncat(outpath, "/", 1);
+    strncat(outpath, inpath, strlen(inpath));
+
+    return outpath;
+}
 
 /*
  * Compile-time tracing messages

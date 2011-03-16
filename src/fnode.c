@@ -108,9 +108,13 @@ FILE *fnode_fopen(struct fnode *node) {
 
     struct stat pathstat;
 
-    if (NULL == node->path) return NULL;
+    exfiles_trace_msg("Entering fnode_fopen");
 
-    if (NULL != node->handle) {     /* handle is already open */
+    if (NULL == node || NULL == node->path)
+        return NULL;
+
+    if (NULL != node->handle && (-1 != fileno(node->handle))) {
+        /* handle is already open */
         if (stat(node->path, &pathstat) != 0)
             return NULL;
 

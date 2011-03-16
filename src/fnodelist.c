@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include "exfiles-util.h"
 #include "fnodelist.h"
 
 /**
@@ -172,3 +173,110 @@ struct fnodelist_item *fnodelist_append_path(struct fnodelist *list, const char 
     return new_item;
 
 }
+
+/** fnodelist_next_item - Open next item
+ *
+ * @param list fnodelist to operate on
+ *
+ * @return Pointer to current item or NULL at EOF
+ */
+
+struct fnodelist_item *
+fnodelist_next_item(struct fnodelist *list) {
+
+    exfiles_trace_msg("Entering fnodelist_next_item");
+
+    if (NULL == list)
+        return NULL;
+
+    if (NULL == list->curr)
+        list->curr = list->head;
+    else
+        list->curr = list->curr->next;
+
+    return list->curr;
+}
+
+/** fnodelist_next_fnode - Open next fnode
+ *
+ * @param list fnodelist to operate on
+ *
+ * @return Pointer to current fnode
+ */
+
+struct fnode *
+fnodelist_next_fnode(struct fnodelist *list) {
+    struct fnodelist_item *next;
+
+    exfiles_trace_msg("Entering fnodelist_next_fnode");
+
+    if (NULL == list)
+        return NULL;
+
+    next = fnodelist_next_item(list);
+
+    if (NULL != next && NULL != fnode_fopen(next->node))
+        return next->node;
+    else
+        return NULL;
+}
+
+/**
+ * fnodelist_fgets - Read a line from an fnodelist
+ *
+ * @param buf Pointer to buffer to write line into.
+ * @param size Maximum bytes to write to buffer.
+ * @param list Fnodelist to read from.
+ *
+ * @return buf on success and NULL on error or EOF when no characters have been
+ * read.
+ */
+
+char *
+fnodelist_fgets(char *buf, int size, struct fnodelist *list) {
+
+    char *tbuf = NULL;
+
+    exfiles_trace_msg("Entering fnodelist_fgets");
+
+    if (NULL == list) return NULL;
+
+    if (NULL == list->curr)
+        fnodelist_next_fnode(list);
+
+    if (NULL == list->curr->node)
+        return NULL; /* This shouldn't happen (or would it on the last node?) */
+
+    /* Valid current handle? */
+    if (is_valid_handle(list->curr->node->handle)) {
+        /* At end of file? */
+        if(1 == feof(list->curr->node->handle)) {
+            /* Jump to next file */
+            fnodelist_next_fnode(list);
+        }
+    }
+    else {
+        fnode_fopen(list->curr->node);
+    }
+
+    tbuf = fgets(buf, size, list->curr->node->handle);
+
+    return tbuf;
+}
+
+/** fnodelist_rewind - Rewind input vector
+ *
+ * @param list fnodelist to operate on
+ *
+ * @return void
+ */
+
+void
+fnodelist_rewind(struct fnodelist *list) {
+    if (NULL == list)
+        return;
+
+    list->curr = list->head;
+
+}
+
