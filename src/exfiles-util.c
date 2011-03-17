@@ -87,20 +87,30 @@ exfiles_set_close_on_exec(FILE *stream)
 }
 
 char *
-qualify_file_path(char *inpath, char *outpath)
+qualify_file_path(char *inpath, char **outpath)
 {
+    int len = 0;
 
-    if (inpath[0] == '/')  /* Starts with slash, so must be already qualified */
-        return inpath;
-
+    /* Starts with slash, so must be already qualified */
+    if (inpath[0] == '/')
+        len = strlen(inpath) + 1;
+    else
+        len = strlen(inpath) + strlen(EXFILES_BASE) + 2;
                                                 /* +1 for "/", +1 for '\0' */
-    outpath = calloc(1, strlen(inpath) + strlen(EXFILES_BASE) + 2);
 
-    strncpy(outpath, EXFILES_BASE, strlen(EXFILES_BASE+1));
-    strncat(outpath, "/", 1);
-    strncat(outpath, inpath, strlen(inpath));
+    (*outpath) = calloc(1, len);
+    if (NULL == *outpath) return NULL;
 
-    return outpath;
+    if (inpath[0] == '/') {
+        strncpy(*outpath, &inpath[0], strlen(inpath)+1);
+    }
+    else {
+        strncpy(*outpath, EXFILES_BASE, strlen(EXFILES_BASE+1));
+        strncat(*outpath, "/", 1);
+        strncat(*outpath, &inpath[0], strlen(inpath)+1);
+    }
+
+    return *outpath;
 }
 
 /*

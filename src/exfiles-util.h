@@ -10,7 +10,7 @@ int exfiles_set_close_on_exec(FILE *);
 
 void exfiles_trace_msg(char *);
 
-char *qualify_file_path(char *, char *);
+char *qualify_file_path(char *, char **);
 
 /* Utility macros */
 #define XSTR(s) STR(s)
