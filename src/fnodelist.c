@@ -236,6 +236,7 @@ char *
 fnodelist_fgets(char *buf, int size, struct fnodelist *list) {
 
     char *tbuf = NULL;
+    char msg[1024];
 
     exfiles_trace_msg("Entering fnodelist_fgets");
 
@@ -245,12 +246,12 @@ fnodelist_fgets(char *buf, int size, struct fnodelist *list) {
         fnodelist_next_fnode(list);
 
     if (NULL == list->curr->node)
-        return NULL; /* This shouldn't happen (or would it on the last node?) */
+        return NULL; /* This shouldn't happen */
 
     /* Valid current handle? */
     if (is_valid_handle(list->curr->node->handle)) {
         /* At end of file? */
-        if(1 == feof(list->curr->node->handle)) {
+        if(0 != feof(list->curr->node->handle)) {
             /* Jump to next file */
             fnodelist_next_fnode(list);
         }
@@ -259,7 +260,25 @@ fnodelist_fgets(char *buf, int size, struct fnodelist *list) {
         fnode_fopen(list->curr->node);
     }
 
-    tbuf = fgets(buf, size, list->curr->node->handle);
+    sprintf(msg, "fnodelist_fgets: Reading line from file '%s'",
+            list->curr->node->path);
+    exfiles_trace_msg(msg);
+
+    while(NULL == (tbuf = fgets(buf, size, list->curr->node->handle))) {
+        sprintf(msg, "fgets read: '%s'", tbuf);
+        exfiles_trace_msg(msg);
+
+        /* Hit the end of the list */
+        if (NULL == fnodelist_next_fnode(list))
+            break;
+
+        sprintf(msg, "fnodelist_fgets: Reading line from file '%s'",
+                list->curr->node->path);
+        exfiles_trace_msg(msg);
+
+    }
+
+
 
     return tbuf;
 }
