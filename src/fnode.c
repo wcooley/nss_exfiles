@@ -113,9 +113,11 @@ FILE *fnode_fopen(struct fnode *node) {
     if (NULL == node || NULL == node->path)
         return NULL;
 
+    /* handle is already open */
     if (NULL != node->handle && (-1 != fileno(node->handle))) {
-        /* handle is already open */
+
         if (stat(node->path, &pathstat) != 0)
+            /* stat failed */
             return NULL;
 
         /* If open file has as late mtime as path, then just rewind the
