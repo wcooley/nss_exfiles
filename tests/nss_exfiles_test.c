@@ -27,14 +27,14 @@ int main (void)
 
     struct passwd * p;
 
-    fprintf(stderr, "Calling setpwent()...\n");
+    /* fprintf(stderr, "Calling setpwent()...\n"); */
     setpwent();
 
     do {
-        fprintf(stderr, "Calling getpwent()...\n");
+        /* fprintf(stderr, "Calling getpwent()...\n"); */
         p = getpwent();
         if (NULL == p) {
-            fprintf(stderr, "getpwent() returned NULL\n");
+            /*fprintf(stderr, "getpwent() returned NULL\n");*/
             break;
         }
 
@@ -42,7 +42,7 @@ int main (void)
     }
     while (NULL != p); 
 
-    fprintf(stderr, "Calling endpwent()...\n");
+    /* fprintf(stderr, "Calling endpwent()...\n"); */
     endpwent();
     return 0;
 }
