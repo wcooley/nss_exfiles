@@ -24,14 +24,14 @@ exfiles_parse_config(struct exfiles_conf *conf) {
             /*printf("type = passwd, file = %s\n", file);*/
             qualify_file_path(file, &qpath);
             fprintf(stderr, "file: %s -> qpath: %s\n", file, qpath);
-            fnodelist_append_path(conf->passwd, file);
+            fnodelist_append_path(conf->passwd, qpath);
         }
 
         else if (fscanf(cfgfile, " group: %" XSTR(PATH_MAX) "s", file) == 1) {
             /*printf("type = group, file = %s\n", file);*/
             qualify_file_path(file, &qpath);
             fprintf(stderr, "file: %s -> qpath: %s\n", file, qpath);
-            fnodelist_append_path(conf->group, file);
+            fnodelist_append_path(conf->group, qpath);
         }
 
         else {
