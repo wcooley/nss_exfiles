@@ -12,18 +12,6 @@
 #include "exfiles-util-grp.h"
 #include "strsplit.h"
 
-EXFILE_FILE(group)
-
-static FILE *ex_group_f;
-
-/*
- * Set the group file name; mainly for testing
- */
-void
-_set_group_file(char *file) {
-    ex_group = file;
-}
-
 /*
  * Open the group file for reading
  */
@@ -31,7 +19,7 @@ enum nss_status
 _nss_exfiles_setgrent(void) {
 
     exfiles_trace_msg("Entering _nss_exfiles_setgrent");
-    return exfiles_open_file(ex_group, &ex_group_f);
+    return nss_exfiles_setup();
 
 }
 
@@ -40,16 +28,7 @@ _nss_exfiles_setgrent(void) {
  */
 enum nss_status
 _nss_exfiles_endgrent(void) {
-
-    enum nss_status status = NSS_STATUS_SUCCESS;
-
-    if (NULL != ex_group_f) {
-        fclose(ex_group_f);
-        ex_group_f = NULL;
-    }
-
-    return status;
-
+    return NSS_STATUS_SUCCESS;
 }
 
 
@@ -70,13 +49,8 @@ _nss_exfiles_getgrent_r(struct group *grbuf,
         return NSS_STATUS_NOTFOUND;
     }
 
-    if (NULL == ex_group_f) {
-        fprintf(stderr, "ex_group_f is NULL\n");
-        return NSS_STATUS_NOTFOUND;
-    }
-
     /* Read a line from the group file */
-    if (NULL == fgets(grline, MAX_CANON, ex_group_f)) {
+    if (NULL == fnodelist_fgets(grline, MAX_CANON, nss_exfiles_conf.group)) {
         return NSS_STATUS_NOTFOUND;
     }
 
