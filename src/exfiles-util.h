@@ -4,13 +4,13 @@
 #include <stdio.h>
 
 /* Utility functions */
-int exfiles_open_file(char *, FILE **);
+int exfiles_open_file(const char *, FILE **);
 
 int exfiles_set_close_on_exec(FILE *);
 
-void exfiles_trace_msg(char *);
+void exfiles_trace_msg(const char *);
 
-char *qualify_file_path(char *, char **);
+char *qualify_file_path(const char *, char **);
 
 /* Utility macros */
 #define XSTR(s) STR(s)

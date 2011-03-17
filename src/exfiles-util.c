@@ -16,7 +16,7 @@
  * all error handling for them.
  */
 int
-exfiles_open_file(char *fname, FILE **ex_file_ptr) {
+exfiles_open_file(const char *fname, FILE **ex_file_ptr) {
 
     enum nss_status status  = NSS_STATUS_SUCCESS;
     char err_msg[128]       = "exfiles_open_file: Failed to open file '%s'";
@@ -87,7 +87,7 @@ exfiles_set_close_on_exec(FILE *stream)
 }
 
 char *
-qualify_file_path(char *inpath, char **outpath)
+qualify_file_path(const char *inpath, char **outpath)
 {
     int len = 0;
 
@@ -119,10 +119,10 @@ qualify_file_path(char *inpath, char **outpath)
  */
 
 #ifdef ENABLE_TRACE
-void exfiles_trace_msg(char *msg) {
+void exfiles_trace_msg(const char *msg) {
     if (getenv("NSS_EXFILES_TRACE"))
         fprintf(stderr, "TRACE: %s\n", msg);
 }
 #else
-void exfiles_trace_msg(char *msg) {}
+void exfiles_trace_msg(const char *msg) {}
 #endif /* TRACE */
