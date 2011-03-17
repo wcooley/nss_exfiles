@@ -34,4 +34,5 @@ tests/test_strsplit
 tests/test_fnodelist
 tests/test_fnode
 tests/test_parser
+tests/nss_exfiles_test
 src/exfiles-conf
