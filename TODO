@@ -1,37 +1,40 @@
 Short term
 ==========
-* Conf:
-** Design & implement structures & routines
-*** Open main conf, parse & build
-*** Iterate through conf struct and open files?
-*** Replace strlist with fnodelist
-**** Or open db files only when/if necessary?
 
-* Conf parser:
-** Write tests for parser
+* Functional bugs:
+** 'getent group <groupname>' might not work
 
-* Complete passwd & group support
-** Need to determine what remains--mostly just group, I think.
-** Need to write & run some tests
-* Complete passwd & group test coverage
-* Verify nothing terribly dumb performance-wise
-* Write docs
+* Tests:
+** Convert manual tests done with nss_exfiles_test to automated, check-based
+** More group tests
+** More tests for parser
+** Very large datasets
+** Lots of calls with static data
+** Lots of calls with constantly changing data
+** Lots of calls with constantly changing config
+** Profile for memory & file descriptor leaks
+** Test with lots of threads
+** Abuse testing: testing with invalid buffers, buffers too small, etc.
 
-* Think about locking & threading
-** Is it necessary to lock? Does a set/get+/end "transaction" happen only in
-one thread?
-** Verify correctness in threaded environment
+* Docs:
+** Man page
+** Update INSTALL
+** Update README with use-cases
 
-Short term - Done
------------------
-** Resurrect strlist code; forgot I'd written it for implementing the parsed
-config data structures
-** Add prefix to support multiple Yacc parsers
-** Re-write conf parser using scanf instead of lex/yacc.
+* Build:
+** configure-able base & conf locations
+** configure-able dev-mode
+** configure so libnss_exfiles installs in /lib(64)? by default
+** Figure out what I need to autoconf to actually check for
+** Add RPM spec file and Debian control files
+** Build binary packages for a few platforms
 
-Short term - Scrapped
----------------------
-** Enable re-entrancy for parser w/lex/yacc?
+* Project:
+** Tag & release
+** Make more of a web site
+** Try to get into a few major distros
+** Announce / advertise
+** Mailing lists?
 
 Longer term
 ===========
@@ -40,4 +43,29 @@ Longer term
 * shadow/gshadow support
 * Support globbing in conf file?
 * Improve automake/conf/libtool use
-** Find way to skip checks if 'check' is not installed
+** Skip checks if 'check' is not installed
+
+Done
+==================
+** Resurrect strlist code; forgot I'd written it for implementing the parsed
+config data structures
+** Add prefix to support multiple Yacc parsers
+** Re-write conf parser using scanf instead of lex/yacc.
+
+* Conf:
+** Design & implement structures & routines
+*** Open main conf, parse & build
+*** Iterate through conf struct and open files?
+*** Replace strlist with fnodelist
+**** Or open db files only when/if necessary?
+* Complete passwd & group support
+
+* Think about locking & threading
+** Is it necessary to lock? Does a set/get+/end "transaction" happen only in
+one thread?
+*** NSS interface seems to be inherently thread-unsafe, so apps should be doing
+their own locking. Need to verify with actual applications.
+
+Scrapped
+=====================
+** Enable re-entrancy for parser w/lex/yacc?
