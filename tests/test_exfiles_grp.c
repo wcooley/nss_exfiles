@@ -50,7 +50,37 @@ void *dl_handle;
  * Tests
  */
 
+START_TEST(t_getgrent)
+{
+    int i;
+    struct group *g_buf;
+    enum nss_status lookup_status;
 
+    g_buf = malloc(sizeof(struct group));
+    fail_unless(NULL != g_buf, strerror(errno));
+
+    (*exfiles_setgrent)();
+    for (i=0; t_grp[i].gr_name != NULL; ++i) {
+        lookup_status = (*exfiles_getgrent)(g_buf, NULL, 0, NULL);
+
+        /* Ensure a successful return */
+        fail_unless(NSS_STATUS_SUCCESS == lookup_status,
+                    "Lookup unsuccessful");
+
+        /* Ensure that the expected and received UIDs match */
+        fail_unless(g_buf->gr_gid == t_grp[i].gr_gid,
+                    "GIDs do not match");
+
+
+        /* FIXME: Do deeper check
+            gr_mem
+            gr_passwd
+        */
+    }
+    (*exfiles_endgrent)();
+
+}
+END_TEST
 
 /*
  * Main and auxillary functions
