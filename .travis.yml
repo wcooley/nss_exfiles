@@ -1,0 +1,10 @@
+language: c
+compiler:
+    - gcc
+before_install:
+    - sudo apt-get update -qq
+install::
+    - sudo apt-get install -qq check
+before_script:
+    - config/bootstrap
+script: ./configure && make && make check
