@@ -3,6 +3,7 @@
 
 AC_PREREQ(2.59)
 AC_INIT(nss_exfiles, 0.1, nss_exfiles-bugs@nakedape.cc)
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AM_INIT_AUTOMAKE([-Wall])
 AC_CONFIG_SRCDIR([src/])
@@ -33,7 +34,7 @@ AC_PROG_LIBTOOL
 AC_PROG_CC
 
 # Checks for libraries.
-AM_PATH_CHECK()
+PKG_CHECK_MODULES([CHECK], [check >= 0.9.4])
 
 # Checks for header files.
 AC_HEADER_STDC
@@ -52,3 +53,4 @@ AC_CONFIG_FILES([Makefile
                  src/Makefile
                  tests/Makefile])
 AC_OUTPUT
+AM_PROG_CC_C_O
