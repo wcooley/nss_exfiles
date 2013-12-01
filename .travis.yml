@@ -3,7 +3,7 @@ compiler:
     - gcc
 before_install:
     - sudo apt-get update -qq
-install::
+install:
     - sudo apt-get install -qq check
 before_script:
     - config/bootstrap
